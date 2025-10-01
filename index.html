@@ -6,26 +6,93 @@
     <title>FYRE Cannabis Menu</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
+        
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #1a1a1a;
+            background-color: #1a1a1a; 
             color: #e5e5e5;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
         }
+
+        /* --- Layered Animated Atmospheric Background (Heat Glow + Smoke/Fog) --- */
+        #atmospheric-background {
+            position: fixed; 
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; 
+            background-color: #1a1a1a;
+            
+            /* Background Images: Four radial gradients for layered effects */
+            background-image: 
+                /* Smoke/Fog (Top layers, translucent grey) */
+                radial-gradient(circle at 30% 70%, rgba(200, 200, 200, 0.05) 0%, rgba(0, 0, 0, 0) 50%),
+                radial-gradient(circle at 70% 30%, rgba(150, 150, 150, 0.08) 0%, rgba(0, 0, 0, 0) 60%),
+                /* Heat/Glow (More Reddish Colors for a deeper fire effect) */
+                radial-gradient(circle at 10% 20%, rgba(200, 50, 50, 0.08) 0%, rgba(200, 50, 50, 0) 60%), /* Subtle Red Glow */
+                radial-gradient(circle at 90% 80%, rgba(180, 30, 0, 0.1) 0%, rgba(180, 30, 0, 0) 70%);     /* Deeper Fire Red */
+
+            /* Setting sizes for all four gradients to cover the screen broadly */
+            background-size: 350% 350%, 350% 350%, 250% 250%, 250% 250%; 
+            
+            /* Single animation controlling the position of all four gradients */
+            animation: atmospheric-movement 40s infinite alternate linear; 
+        }
+        
+        /* Keyframes for complex, slow, and random movement of all four background gradients */
+        @keyframes atmospheric-movement {
+            0% { 
+                background-position: 
+                    0% 0%, 
+                    100% 100%, 
+                    10% 90%, 
+                    90% 10% 
+            }
+            50% { 
+                background-position: 
+                    100% 50%, 
+                    0% 50%, 
+                    40% 60%, 
+                    60% 40% 
+            }
+            100% { 
+                background-position: 
+                    0% 100%, 
+                    100% 0%,
+                    10% 10%,
+                    90% 90%
+            }
+        }
+        /* --- END Atmospheric Background --- */
+
         .container {
-            max-width: 800px;
+            max-width: 1000px;
+            position: relative; 
+            z-index: 10;
         }
         .product-card {
             border: 2px solid #333;
-            background-color: #262626;
+            background-color: rgba(38, 38, 38, 0.95); 
+            backdrop-filter: blur(2px); 
             transition: transform 0.2s, box-shadow 0.2s;
             position: relative;
             overflow: hidden;
+            outline: none; 
+            cursor: pointer;
         }
-        .product-card:hover {
+        
+        /* Interactive Effect for Hover (Desktop) and Tap/Focus (Mobile) */
+        .product-card:hover,
+        .product-card:focus-within {
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
         }
+        
         .product-card::before {
             content: '';
             position: absolute;
@@ -33,7 +100,7 @@
             right: -20px;
             bottom: -20px;
             left: -20px;
-            background: radial-gradient(circle, rgba(255, 127, 80, 0.1) 0%, rgba(255, 127, 80, 0) 70%);
+            background: radial-gradient(circle, rgba(255, 69, 0, 0.15) 0%, rgba(255, 69, 0, 0) 70%);
             opacity: 0.5;
             animation: pulse 4s infinite;
         }
@@ -42,93 +109,186 @@
             50% { transform: scale(1.1); opacity: 0.8; }
             100% { transform: scale(1); opacity: 0.5; }
         }
-        .fire-icon {
-            display: inline-block;
-            width: 1.5rem;
-            height: 1.5rem;
-            background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23FF8000"%3E%3Cpath d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-12c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-3 7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm8-2c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-2 4c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm-4 2c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/%3E%3Cpath d="M12 22c-5.52 0-10-4.48-10-10S6.48 2 12 2s10 4.48 10 10-4.48 10-10 10zm-1-12c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-3 7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm8-2c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-2 4c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm-4 2c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z" fill="%23f7c948"/%3E%3C/svg%3E');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
+        /* Style for Cannabinoid Data */
+        .cannabinoid-data {
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            margin-bottom: 0.75rem; 
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid #444; 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #ccc;
+        }
+        .cannabinoid-value {
+            color: #fef08a; 
+            font-weight: 800;
+        }
+        .data-divider {
+            color: #666; 
+            margin: 0 8px;
+        }
+        .price-item {
+             background-color: #333;
+             transition: background-color 0.15s;
+        }
+        .price-item:active {
+            background-color: #444;
+        }
+        
+        /* Custom styling for the logo */
+        .fyre-logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 900; 
+            text-transform: uppercase;
+        }
+        .fyre-logo .letter {
+            position: relative;
+            color: transparent;
+            background-clip: text;
+            -webkit-background-clip: text;
+            background-image: linear-gradient(to right, #fb923c, #dc2626); 
+            padding: 0 0.5rem;
+        }
+
+        .fyre-logo .letter-y {
+            padding-bottom: 0.25rem; 
+        }
+        
+        .fyre-logo .flame {
+            position: absolute;
+            pointer-events: none; 
+        }
+
+        /* Responsive Logo Sizing */
+        .fyre-logo {
+            font-size: 4rem; /* Default/Mobile Size */
+        }
+        .fyre-logo .flame {
+            font-size: 1.5rem;
+            top: -0.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .fyre-logo {
+                font-size: 6rem; /* Desktop Size */
+            }
+            .fyre-logo .flame {
+                font-size: 2.5rem;
+                top: -0.75rem;
+            }
         }
     </style>
 </head>
-<body class="p-8 md:p-16">
-    <div class="container mx-auto">
-        <header class="text-center mb-12">
-            <h1 class="text-6xl md:text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-600 mb-4 tracking-tight">
-                FYRE
-            </h1>
-            <h2 class="text-2xl md:text-3xl font-bold uppercase tracking-widest text-white">Menu</h2>
+<body>
+    <div id="atmospheric-background"></div>
+
+    <div class="container mx-auto px-4 md:px-8 py-8">
+        <header class="text-center mb-10 mt-4">
+            <!-- FYRE logo -->
+            <div class="fyre-logo mb-4">
+                <span class="letter">F</span>
+                <span class="letter letter-y">Y<span class="flame">🔥</span></span>
+                <span class="letter">R</span>
+                <span class="letter">E</span>
+            </div>
+            
+            <h2 class="text-2xl font-bold uppercase tracking-widest text-white mt-4">Menu</h2>
         </header>
 
-        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Use md:grid-cols-2 to switch to a two-column layout on medium screens and larger -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
             <!-- Strain: Sour Joker -->
-            <div class="product-card rounded-2xl p-6 shadow-xl">
-                <h3 class="text-3xl font-bold text-orange-400 mb-2">Sour Joker</h3>
+            <div class="product-card rounded-xl p-6 shadow-xl" tabindex="0"> 
+                <h3 class="text-2xl font-bold text-orange-400 mb-2">Sour Joker</h3>
+                <div class="cannabinoid-data text-base">
+                    <span>THC: <span class="cannabinoid-value">28.36%</span></span>
+                    <span class="data-divider">|</span>
+                    <span>Total Cannabinoids: <span class="cannabinoid-value">33.15%</span></span>
+                </div>
                 <p class="text-gray-400 mb-4">A new batch of our classic, high-energy sativa.</p>
                 <ul class="space-y-3">
-                    <li class="flex justify-between items-center bg-gray-700 rounded-lg px-4 py-2">
+                    <li class="flex justify-between items-center price-item rounded-lg px-4 py-2">
                         <span class="font-bold text-lg">Eighth Jar (3.5g)</span>
                         <span class="text-lg font-bold text-white">$25.00</span>
                     </li>
-                    <li class="flex justify-between items-center bg-gray-700 rounded-lg px-4 py-2">
+                    <li class="flex justify-between items-center price-item rounded-lg px-4 py-2">
                         <span class="font-bold text-lg">Single 1g Pre-Roll</span>
                         <span class="text-lg font-bold text-white">$7.00</span>
                     </li>
-                    <li class="flex justify-between items-center bg-gray-700 rounded-lg px-4 py-2">
+                    <li class="flex justify-between items-center price-item rounded-lg px-4 py-2">
                         <span class="font-bold text-lg">5-Pack (0.5g ea)</span>
-                        <span class="text-lg font-bold text-white">$22.50</span>
+                        <span class="text-lg font-bold text-white">$20.00</span>
                     </li>
                 </ul>
             </div>
 
             <!-- Strain: BX Runtz -->
-            <div class="product-card rounded-2xl p-6 shadow-xl">
-                <h3 class="text-3xl font-bold text-purple-400 mb-2">BX Runtz</h3>
+            <div class="product-card rounded-xl p-6 shadow-xl" tabindex="0">
+                <h3 class="text-2xl font-bold text-purple-400 mb-2">BX Runtz</h3>
+                <div class="cannabinoid-data text-base">
+                    <span>THC: <span class="cannabinoid-value">32.37%</span></span>
+                    <span class="data-divider">|</span>
+                    <span>Total Cannabinoids: <span class="cannabinoid-value">38.08%</span></span>
+                </div>
                 <p class="text-gray-400 mb-4">Sweet and fruity, a perfectly balanced hybrid.</p>
                 <ul class="space-y-3">
-                    <li class="flex justify-between items-center bg-gray-700 rounded-lg px-4 py-2">
+                    <li class="flex justify-between items-center price-item rounded-lg px-4 py-2">
                         <span class="font-bold text-lg">Eighth Jar (3.5g)</span>
                         <span class="text-lg font-bold text-white">$25.00</span>
                     </li>
-                    <li class="flex justify-between items-center bg-gray-700 rounded-lg px-4 py-2">
+                    <li class="flex justify-between items-center price-item rounded-lg px-4 py-2">
                         <span class="font-bold text-lg">Single 1g Pre-Roll</span>
                         <span class="text-lg font-bold text-white">$7.00</span>
                     </li>
-                    <li class="flex justify-between items-center bg-gray-700 rounded-lg px-4 py-2">
+                    <li class="flex justify-between items-center price-item rounded-lg px-4 py-2">
                         <span class="font-bold text-lg">5-Pack (0.5g ea)</span>
-                        <span class="text-lg font-bold text-white">$22.50</span>
+                        <span class="text-lg font-bold text-white">$20.00</span>
                     </li>
                 </ul>
             </div>
 
             <!-- Strain: Purple Toast -->
-            <div class="product-card rounded-2xl p-6 shadow-xl">
-                <h3 class="text-3xl font-bold text-purple-600 mb-2">Purple Toast</h3>
+            <div class="product-card rounded-xl p-6 shadow-xl" tabindex="0">
+                <h3 class="text-2xl font-bold text-purple-600 mb-2">Purple Toast</h3>
+                <div class="cannabinoid-data text-base">
+                    <span>THC: <span class="cannabinoid-value">27.10%</span></span>
+                    <span class="data-divider">|</span>
+                    <span>Total Cannabinoids: <span class="cannabinoid-value">31.70%</span></span>
+                </div>
                 <p class="text-gray-400 mb-4">A smooth, relaxing indica with a rich, toasty flavor.</p>
                 <ul class="space-y-3">
-                    <li class="flex justify-between items-center bg-gray-700 rounded-lg px-4 py-2">
+                    <li class="flex justify-between items-center price-item rounded-lg px-4 py-2">
                         <span class="font-bold text-lg">Eighth Jar (3.5g)</span>
                         <span class="text-lg font-bold text-white">$25.00</span>
                     </li>
-                    <li class="flex justify-between items-center bg-gray-700 rounded-lg px-4 py-2">
+                    <li class="flex justify-between items-center price-item rounded-lg px-4 py-2">
                         <span class="font-bold text-lg">Single 1g Pre-Roll</span>
                         <span class="text-lg font-bold text-white">$7.00</span>
                     </li>
-                    <li class="flex justify-between items-center bg-gray-700 rounded-lg px-4 py-2">
+                    <li class="flex justify-between items-center price-item rounded-lg px-4 py-2">
                         <span class="font-bold text-lg">5-Pack (0.5g ea)</span>
-                        <span class="text-lg font-bold text-white">$22.50</span>
+                        <span class="text-lg font-bold text-white">$20.00</span>
                     </li>
                 </ul>
             </div>
 
             <!-- Single Product: Sugared Haze -->
-            <div class="product-card rounded-2xl p-6 shadow-xl">
-                <h3 class="text-3xl font-bold text-emerald-400 mb-2">Sugared Haze</h3>
+            <div class="product-card rounded-xl p-6 shadow-xl" tabindex="0">
+                <h3 class="text-2xl font-bold text-emerald-400 mb-2">Sugared Haze</h3>
+                <div class="cannabinoid-data text-base">
+                    <span>THC: <span class="cannabinoid-value">22.39%</span></span>
+                    <span class="data-divider">|</span>
+                    <span>Total Cannabinoids: <span class="cannabinoid-value">25.90%</span></span>
+                </div>
                 <p class="text-gray-400 mb-4">Sweet and hazy sativa, perfect for a creative boost.</p>
                 <ul class="space-y-3">
-                    <li class="flex justify-between items-center bg-gray-700 rounded-lg px-4 py-2">
+                    <li class="flex justify-between items-center price-item rounded-lg px-4 py-2">
                         <span class="font-bold text-lg">Single 1g Pre-Roll</span>
                         <span class="text-lg font-bold text-white">$7.00</span>
                     </li>
@@ -136,11 +296,16 @@
             </div>
 
             <!-- Single Product: Purple Haze -->
-            <div class="product-card rounded-2xl p-6 shadow-xl">
-                <h3 class="text-3xl font-bold text-purple-500 mb-2">Purple Haze</h3>
+            <div class="product-card rounded-xl p-6 shadow-xl" tabindex="0">
+                <h3 class="text-2xl font-bold text-purple-500 mb-2">Purple Haze</h3>
+                <div class="cannabinoid-data text-base">
+                    <span>THC: <span class="cannabinoid-value">27.14%</span></span>
+                    <span class="data-divider">|</span>
+                    <span>Total Cannabinoids: <span class="cannabinoid-value">32.15%</span></span>
+                </div>
                 <p class="text-gray-400 mb-4">A legendary strain known for its euphoric effects.</p>
                 <ul class="space-y-3">
-                    <li class="flex justify-between items-center bg-gray-700 rounded-lg px-4 py-2">
+                    <li class="flex justify-between items-center price-item rounded-lg px-4 py-2">
                         <span class="font-bold text-lg">Eighth Jar (3.5g)</span>
                         <span class="text-lg font-bold text-white">$25.00</span>
                     </li>
@@ -148,11 +313,16 @@
             </div>
             
             <!-- Single Product: Permanent Cream -->
-            <div class="product-card rounded-2xl p-6 shadow-xl">
-                <h3 class="text-3xl font-bold text-yellow-300 mb-2">Permanent Cream</h3>
+            <div class="product-card rounded-xl p-6 shadow-xl" tabindex="0">
+                <h3 class="text-2xl font-bold text-yellow-300 mb-2">Permanent Cream</h3>
+                <div class="cannabinoid-data text-base">
+                    <span>THC: <span class="cannabinoid-value">26.21%</span></span>
+                    <span class="data-divider">|</span>
+                    <span>Total Cannabinoids: <span class="cannabinoid-value">30.87%</span></span>
+                </div>
                 <p class="text-gray-400 mb-4">A creamy indica for deep relaxation.</p>
                 <ul class="space-y-3">
-                    <li class="flex justify-between items-center bg-gray-700 rounded-lg px-4 py-2">
+                    <li class="flex justify-between items-center price-item rounded-lg px-4 py-2">
                         <span class="font-bold text-lg">Single 1g Pre-Roll</span>
                         <span class="text-lg font-bold text-white">$7.00</span>
                     </li>
@@ -160,11 +330,16 @@
             </div>
 
             <!-- Single Product: Sour Crunch -->
-            <div class="product-card rounded-2xl p-6 shadow-xl">
-                <h3 class="text-3xl font-bold text-lime-400 mb-2">Sour Crunch</h3>
+            <div class="product-card rounded-xl p-6 shadow-xl" tabindex="0">
+                <h3 class="text-2xl font-bold text-lime-400 mb-2">Sour Crunch</h3>
+                <div class="cannabinoid-data text-base">
+                    <span>THC: <span class="cannabinoid-value">22.74%</span></span>
+                    <span class="data-divider">|</span>
+                    <span>Total Cannabinoids: <span class="cannabinoid-value">26.71%</span></span>
+                </div>
                 <p class="text-gray-400 mb-4">A tangy and potent sativa to fuel your day.</p>
                 <ul class="space-y-3">
-                    <li class="flex justify-between items-center bg-gray-700 rounded-lg px-4 py-2">
+                    <li class="flex justify-between items-center price-item rounded-lg px-4 py-2">
                         <span class="font-bold text-lg">Single 1g Pre-Roll</span>
                         <span class="text-lg font-bold text-white">$7.00</span>
                     </li>
