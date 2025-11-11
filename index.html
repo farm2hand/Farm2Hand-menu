@@ -138,6 +138,31 @@
             background-color: #444;
         }
         
+        /* Sold Out Style (Individual Item) - Now uses a custom red line */
+        .sold-out-item {
+            background-color: #2a2a2a; /* Darker background */
+            color: #666; /* Gray text */
+            text-decoration: none; /* Remove default line-through */
+            opacity: 0.8; 
+            position: relative; /* Enable absolute positioning for the line */
+            overflow: hidden;
+        }
+
+        /* Red Strike Through Overlay for individual sold-out items (NEW) */
+        .sold-out-item::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 10%; /* Start the line slightly in */
+            right: 10%; /* End the line slightly in */
+            height: 4px; /* Thickness of the line */
+            background-color: #dc2626; /* Bold red */
+            transform: translateY(-50%); /* Center vertically */
+            z-index: 15;
+            border-radius: 9999px; /* Rounded ends */
+            box-shadow: 0 0 5px rgba(220, 38, 38, 0.5); /* Subtle glow */
+        }
+        
         /* Custom styling for the logo */
         .fyre-logo {
             display: flex;
@@ -166,7 +191,7 @@
 
         /* Responsive Logo Sizing */
         .fyre-logo {
-            font-size: 4rem; /* Default/Mobile Size */
+            font-size: 4rem; 
         }
         .fyre-logo .flame {
             font-size: 1.5rem;
@@ -175,7 +200,7 @@
 
         @media (min-width: 768px) {
             .fyre-logo {
-                font-size: 6rem; /* Desktop Size */
+                font-size: 6rem; 
             }
             .fyre-logo .flame {
                 font-size: 2.5rem;
@@ -238,17 +263,19 @@
                 </div>
                 <p class="text-gray-400 mb-4">Sweet and fruity, a perfectly balanced hybrid.</p>
                 <ul class="space-y-3">
-                    <li class="flex justify-between items-center price-item rounded-lg px-4 py-2">
+                    <!-- BX Runtz Eighth Jar is SOLD OUT with custom red strike -->
+                    <li class="flex justify-between items-center rounded-lg px-4 py-2 sold-out-item">
                         <span class="font-bold text-lg">Eighth Jar (3.5g)</span>
-                        <span class="text-lg font-bold text-white">$25.00</span>
+                        <span class="text-lg font-bold">SOLD OUT</span>
                     </li>
                     <li class="flex justify-between items-center price-item rounded-lg px-4 py-2">
                         <span class="font-bold text-lg">Single 1g Pre-Roll</span>
                         <span class="text-lg font-bold text-white">$7.00</span>
                     </li>
-                    <li class="flex justify-between items-center price-item rounded-lg px-4 py-2">
+                    <!-- BX Runtz 5-Pack is SOLD OUT with custom red strike -->
+                    <li class="flex justify-between items-center rounded-lg px-4 py-2 sold-out-item">
                         <span class="font-bold text-lg">5-Pack (0.5g ea)</span>
-                        <span class="text-lg font-bold text-white">$20.00</span>
+                        <span class="text-lg font-bold">SOLD OUT</span>
                     </li>
                 </ul>
             </div>
@@ -263,9 +290,10 @@
                 </div>
                 <p class="text-gray-400 mb-4">A smooth, relaxing indica with a rich, toasty flavor.</p>
                 <ul class="space-y-3">
-                    <li class="flex justify-between items-center price-item rounded-lg px-4 py-2">
+                    <!-- Purple Toast Eighth Jar is SOLD OUT with custom red strike -->
+                    <li class="flex justify-between items-center rounded-lg px-4 py-2 sold-out-item">
                         <span class="font-bold text-lg">Eighth Jar (3.5g)</span>
-                        <span class="text-lg font-bold text-white">$25.00</span>
+                        <span class="text-lg font-bold">SOLD OUT</span>
                     </li>
                     <li class="flex justify-between items-center price-item rounded-lg px-4 py-2">
                         <span class="font-bold text-lg">Single 1g Pre-Roll</span>
@@ -294,8 +322,8 @@
                     </li>
                 </ul>
             </div>
-
-            <!-- Single Product: Purple Haze -->
+            
+            <!-- Strain: Purple Haze (Now just uses the individual sold-out style for consistency) -->
             <div class="product-card rounded-xl p-6 shadow-xl" tabindex="0">
                 <h3 class="text-2xl font-bold text-purple-500 mb-2">Purple Haze</h3>
                 <div class="cannabinoid-data text-base">
@@ -305,13 +333,14 @@
                 </div>
                 <p class="text-gray-400 mb-4">A legendary strain known for its euphoric effects.</p>
                 <ul class="space-y-3">
-                    <li class="flex justify-between items-center price-item rounded-lg px-4 py-2">
+                    <!-- MARKED AS SOLD OUT with custom red strike -->
+                    <li class="flex justify-between items-center rounded-lg px-4 py-2 sold-out-item">
                         <span class="font-bold text-lg">Eighth Jar (3.5g)</span>
-                        <span class="text-lg font-bold text-white">$25.00</span>
+                        <span class="text-lg font-bold">SOLD OUT</span>
                     </li>
                 </ul>
             </div>
-            
+
             <!-- Single Product: Permanent Cream -->
             <div class="product-card rounded-xl p-6 shadow-xl" tabindex="0">
                 <h3 class="text-2xl font-bold text-yellow-300 mb-2">Permanent Cream</h3>
