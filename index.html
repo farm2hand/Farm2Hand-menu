@@ -1,380 +1,314 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FYRE Cannabis Menu</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #1a1a1a; 
-            color: #e5e5e5;
-            min-height: 100vh;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
 
-        /* --- Layered Animated Atmospheric Background (Heat Glow + Smoke/Fog) --- */
-        #atmospheric-background {
-            position: fixed; 
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1; 
-            background-color: #1a1a1a;
-            
-            /* Background Images: Four radial gradients for layered effects */
-            background-image: 
-                /* Smoke/Fog (Top layers, translucent grey) */
-                radial-gradient(circle at 30% 70%, rgba(200, 200, 200, 0.05) 0%, rgba(0, 0, 0, 0) 50%),
-                radial-gradient(circle at 70% 30%, rgba(150, 150, 150, 0.08) 0%, rgba(0, 0, 0, 0) 60%),
-                /* Heat/Glow (More Reddish Colors for a deeper fire effect) */
-                radial-gradient(circle at 10% 20%, rgba(200, 50, 50, 0.08) 0%, rgba(200, 50, 50, 0) 60%), /* Subtle Red Glow */
-                radial-gradient(circle at 90% 80%, rgba(180, 30, 0, 0.1) 0%, rgba(180, 30, 0, 0) 70%);     /* Deeper Fire Red */
+<style>
+    :root {
+        --bg: #050505;
+        --card-bg: rgba(255, 255, 255, 0.05);
+        --accent-fire: #ff5f1f;
+        --sativa: #ffb400;
+        --indica: #a855f7;
+        --hybrid: #22c55e;
+        --text-main: #f4f4f5;
+        --text-dim: #d1d1d6;
+        --glass-border: rgba(255, 255, 255, 0.1);
+    }
 
-            /* Setting sizes for all four gradients to cover the screen broadly */
-            background-size: 350% 350%, 350% 350%, 250% 250%, 250% 250%; 
-            
-            /* Single animation controlling the position of all four gradients */
-            animation: atmospheric-movement 40s infinite alternate linear; 
-        }
-        
-        /* Keyframes for complex, slow, and random movement of all four background gradients */
-        @keyframes atmospheric-movement {
-            0% { 
-                background-position: 
-                    0% 0%, 
-                    100% 100%, 
-                    10% 90%, 
-                    90% 10% 
-            }
-            50% { 
-                background-position: 
-                    100% 50%, 
-                    0% 50%, 
-                    40% 60%, 
-                    60% 40% 
-            }
-            100% { 
-                background-position: 
-                    0% 100%, 
-                    100% 0%,
-                    10% 10%,
-                    90% 90%
-            }
-        }
-        /* --- END Atmospheric Background --- */
+    body {
+        margin: 0;
+        background-color: #000;
+        color: var(--text-main);
+        font-family: 'Outfit', sans-serif;
+        overflow-x: hidden;
+        padding-bottom: 80px;
+        background: linear-gradient(45deg, #050505, #120500, #0a0400, #050505);
+        background-size: 400% 400%;
+        animation: fireGradient 10s ease infinite;
+    }
 
-        .container {
-            max-width: 1000px;
-            position: relative; 
-            z-index: 10;
-        }
-        .product-card {
-            border: 2px solid #333;
-            background-color: rgba(38, 38, 38, 0.95); 
-            backdrop-filter: blur(2px); 
-            transition: transform 0.2s, box-shadow 0.2s;
-            position: relative;
-            overflow: hidden;
-            outline: none; 
-            cursor: pointer;
-        }
-        
-        /* Interactive Effect for Hover (Desktop) and Tap/Focus (Mobile) */
-        .product-card:hover,
-        .product-card:focus-within {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-        }
-        
-        .product-card::before {
-            content: '';
-            position: absolute;
-            top: -20px;
-            right: -20px;
-            bottom: -20px;
-            left: -20px;
-            background: radial-gradient(circle, rgba(255, 69, 0, 0.15) 0%, rgba(255, 69, 0, 0) 70%);
-            opacity: 0.5;
-            animation: pulse 4s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.1); opacity: 0.8; }
-            100% { transform: scale(1); opacity: 0.5; }
-        }
-        /* Style for Cannabinoid Data */
-        .cannabinoid-data {
-            font-size: 1rem;
-            font-weight: 700;
-            font-family: 'Inter', sans-serif;
-            margin-bottom: 0.75rem; 
-            padding-bottom: 0.75rem;
-            border-bottom: 1px solid #444; 
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: #ccc;
-        }
-        .cannabinoid-value {
-            color: #fef08a; 
-            font-weight: 800;
-        }
-        .data-divider {
-            color: #666; 
-            margin: 0 8px;
-        }
-        .price-item {
-             background-color: #333;
-             transition: background-color 0.15s;
-        }
-        .price-item:active {
-            background-color: #444;
-        }
-        
-        /* Sold Out Style (Individual Item) - Now uses a custom red line */
-        .sold-out-item {
-            background-color: #2a2a2a; /* Darker background */
-            color: #666; /* Gray text */
-            text-decoration: none; /* Remove default line-through */
-            opacity: 0.8; 
-            position: relative; /* Enable absolute positioning for the line */
-            overflow: hidden;
-        }
+    @keyframes fireGradient {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
 
-        /* Red Strike Through Overlay for individual sold-out items (NEW) */
-        .sold-out-item::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 10%; /* Start the line slightly in */
-            right: 10%; /* End the line slightly in */
-            height: 4px; /* Thickness of the line */
-            background-color: #dc2626; /* Bold red */
-            transform: translateY(-50%); /* Center vertically */
-            z-index: 15;
-            border-radius: 9999px; /* Rounded ends */
-            box-shadow: 0 0 5px rgba(220, 38, 38, 0.5); /* Subtle glow */
-        }
-        
-        /* Custom styling for the logo */
-        .fyre-logo {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: 900; 
-            text-transform: uppercase;
-        }
-        .fyre-logo .letter {
-            position: relative;
-            color: transparent;
-            background-clip: text;
-            -webkit-background-clip: text;
-            background-image: linear-gradient(to right, #fb923c, #dc2626); 
-            padding: 0 0.5rem;
-        }
+    body::before {
+        content: "";
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: radial-gradient(circle at 50% 100%, rgba(255, 69, 0, 0.2) 0%, transparent 70%);
+        pointer-events: none;
+        z-index: -1;
+        animation: flicker 4s infinite alternate;
+    }
 
-        .fyre-logo .letter-y {
-            padding-bottom: 0.25rem; 
-        }
-        
-        .fyre-logo .flame {
-            position: absolute;
-            pointer-events: none; 
-        }
+    @keyframes flicker {
+        0%, 100% { opacity: 0.5; }
+        50% { opacity: 1; transform: scale(1.1); }
+    }
 
-        /* Responsive Logo Sizing */
-        .fyre-logo {
-            font-size: 4rem; 
-        }
-        .fyre-logo .flame {
-            font-size: 1.5rem;
-            top: -0.5rem;
-        }
+    header { text-align: center; padding: 80px 20px 40px; }
 
-        @media (min-width: 768px) {
-            .fyre-logo {
-                font-size: 6rem; 
-            }
-            .fyre-logo .flame {
-                font-size: 2.5rem;
-                top: -0.75rem;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div id="atmospheric-background"></div>
+    .logo-img { 
+        max-width: 380px; 
+        width: 100%; 
+        filter: drop-shadow(0 0 20px rgba(255, 95, 31, 0.6));
+        animation: pulse-logo 3s infinite ease-in-out;
+    }
 
-    <div class="container mx-auto px-4 md:px-8 py-8">
-        <header class="text-center mb-10 mt-4">
-            <!-- FYRE logo -->
-            <div class="fyre-logo mb-4">
-                <span class="letter">F</span>
-                <span class="letter letter-y">Y<span class="flame">🔥</span></span>
-                <span class="letter">R</span>
-                <span class="letter">E</span>
+    @keyframes pulse-logo {
+        0%, 100% { transform: scale(1); filter: drop-shadow(0 0 15px rgba(255, 95, 31, 0.4)); }
+        50% { transform: scale(1.08); filter: drop-shadow(0 0 40px rgba(255, 95, 31, 0.9)); }
+    }
+
+    .subtitle { color: var(--text-dim); text-transform: uppercase; letter-spacing: 7px; font-size: 1rem; font-weight: 700; margin-top: 20px; }
+
+    .container { max-width: 520px; margin: 0 auto; padding: 0 20px; }
+
+    .menu-item {
+        background: var(--card-bg);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        border-radius: 32px;
+        padding: 30px;
+        margin-bottom: 35px;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+    }
+
+    .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .item-name { font-size: 2.4rem; font-weight: 800; }
+
+    .lineage { color: var(--accent-fire); font-size: 1.1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 18px; display: block; }
+
+    .description { font-size: 1.2rem; font-weight: 500; margin-bottom: 28px; color: #fff; line-height: 1.5; }
+
+    .badge { font-size: 0.85rem; font-weight: 800; padding: 8px 16px; border-radius: 12px; text-transform: uppercase; }
+    .type-sativa { background: var(--sativa); color: #000; }
+    .type-indica { background: var(--indica); color: #fff; }
+    .type-hybrid { background: var(--hybrid); color: #fff; }
+    .type-soon { background: #555; color: #fff; }
+
+    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .pricing-grid.single { grid-template-columns: 1fr; }
+
+    .price-tier {
+        background: rgba(0, 0, 0, 0.45);
+        border-radius: 20px;
+        padding: 18px 8px;
+        text-align: center;
+        border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .tier-name { display: block; font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; font-weight: 700; margin-bottom: 5px; }
+    .tier-price { font-size: 1.6rem; font-weight: 900; line-height: 1; margin-bottom: 6px; display: block; color: #fff; }
+    
+    .case-count { 
+        display: block; 
+        font-size: 0.75rem; 
+        color: var(--accent-fire); 
+        font-weight: 900; 
+        text-transform: uppercase;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        padding-top: 6px;
+        margin-top: 6px;
+    }
+
+    footer { text-align: center; padding: 80px; font-size: 1rem; color: var(--text-dim); letter-spacing: 3px; font-weight: 700; }
+</style>
+
+<header>
+    <img src="https://i.ibb.co/DPZY4CVM/logo.png" alt="FYRE Logo" class="logo-img">
+    <p class="subtitle">Curated Premium Menu</p>
+</header>
+
+<div class="container">
+
+    <div class="menu-item" style="border-style: dashed; opacity: 0.7;">
+        <div class="header-row">
+            <h3 class="item-name">Uptown Piff</h3>
+            <span class="badge type-soon">Coming Soon</span>
+        </div>
+        <span class="lineage">The Legendary NYC Haze</span>
+        <p class="description">The church is back. Authentic NYC incense and frankincense notes with that unmistakable electric piff head-high.</p>
+        <div class="pricing-grid">
+            <div class="price-tier">
+                <span class="tier-name">3.5g Flower</span>
+                <span class="tier-price">TBA</span>
+                <span class="case-count">Case of 24</span>
             </div>
-            
-            <h2 class="text-2xl font-bold uppercase tracking-widest text-white mt-4">Menu</h2>
-        </header>
-
-        <!-- Use md:grid-cols-2 to switch to a two-column layout on medium screens and larger -->
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            
-            <!-- Strain: Sour Joker -->
-            <div class="product-card rounded-xl p-6 shadow-xl" tabindex="0"> 
-                <h3 class="text-2xl font-bold text-orange-400 mb-2">Sour Joker</h3>
-                <div class="cannabinoid-data text-base">
-                    <span>THC: <span class="cannabinoid-value">28.36%</span></span>
-                    <span class="data-divider">|</span>
-                    <span>Total Cannabinoids: <span class="cannabinoid-value">33.15%</span></span>
-                </div>
-                <p class="text-gray-400 mb-4">A new batch of our classic, high-energy sativa.</p>
-                <ul class="space-y-3">
-                    <li class="flex justify-between items-center price-item rounded-lg px-4 py-2">
-                        <span class="font-bold text-lg">Eighth Jar (3.5g)</span>
-                        <span class="text-lg font-bold text-white">$25.00</span>
-                    </li>
-                    <li class="flex justify-between items-center price-item rounded-lg px-4 py-2">
-                        <span class="font-bold text-lg">Single 1g Pre-Roll</span>
-                        <span class="text-lg font-bold text-white">$7.00</span>
-                    </li>
-                    <li class="flex justify-between items-center price-item rounded-lg px-4 py-2">
-                        <span class="font-bold text-lg">5-Pack (0.5g ea)</span>
-                        <span class="text-lg font-bold text-white">$20.00</span>
-                    </li>
-                </ul>
+            <div class="price-tier">
+                <span class="tier-name">1g Pre Roll</span>
+                <span class="tier-price">TBA</span>
+                <span class="case-count">Case of 50</span>
             </div>
-
-            <!-- Strain: BX Runtz -->
-            <div class="product-card rounded-xl p-6 shadow-xl" tabindex="0">
-                <h3 class="text-2xl font-bold text-purple-400 mb-2">BX Runtz</h3>
-                <div class="cannabinoid-data text-base">
-                    <span>THC: <span class="cannabinoid-value">32.37%</span></span>
-                    <span class="data-divider">|</span>
-                    <span>Total Cannabinoids: <span class="cannabinoid-value">38.08%</span></span>
-                </div>
-                <p class="text-gray-400 mb-4">Sweet and fruity, a perfectly balanced hybrid.</p>
-                <ul class="space-y-3">
-                    <!-- BX Runtz Eighth Jar is SOLD OUT with custom red strike -->
-                    <li class="flex justify-between items-center rounded-lg px-4 py-2 sold-out-item">
-                        <span class="font-bold text-lg">Eighth Jar (3.5g)</span>
-                        <span class="text-lg font-bold">SOLD OUT</span>
-                    </li>
-                    <li class="flex justify-between items-center price-item rounded-lg px-4 py-2">
-                        <span class="font-bold text-lg">Single 1g Pre-Roll</span>
-                        <span class="text-lg font-bold text-white">$7.00</span>
-                    </li>
-                    <!-- BX Runtz 5-Pack is SOLD OUT with custom red strike -->
-                    <li class="flex justify-between items-center rounded-lg px-4 py-2 sold-out-item">
-                        <span class="font-bold text-lg">5-Pack (0.5g ea)</span>
-                        <span class="text-lg font-bold">SOLD OUT</span>
-                    </li>
-                </ul>
+            <div class="price-tier">
+                <span class="tier-name">5-Pack</span>
+                <span class="tier-price">TBA</span>
+                <span class="case-count">Case of 20</span>
             </div>
-
-            <!-- Strain: Purple Toast -->
-            <div class="product-card rounded-xl p-6 shadow-xl" tabindex="0">
-                <h3 class="text-2xl font-bold text-purple-600 mb-2">Purple Toast</h3>
-                <div class="cannabinoid-data text-base">
-                    <span>THC: <span class="cannabinoid-value">27.10%</span></span>
-                    <span class="data-divider">|</span>
-                    <span>Total Cannabinoids: <span class="cannabinoid-value">31.70%</span></span>
-                </div>
-                <p class="text-gray-400 mb-4">A smooth, relaxing indica with a rich, toasty flavor.</p>
-                <ul class="space-y-3">
-                    <!-- Purple Toast Eighth Jar is SOLD OUT with custom red strike -->
-                    <li class="flex justify-between items-center rounded-lg px-4 py-2 sold-out-item">
-                        <span class="font-bold text-lg">Eighth Jar (3.5g)</span>
-                        <span class="text-lg font-bold">SOLD OUT</span>
-                    </li>
-                    <li class="flex justify-between items-center price-item rounded-lg px-4 py-2">
-                        <span class="font-bold text-lg">Single 1g Pre-Roll</span>
-                        <span class="text-lg font-bold text-white">$7.00</span>
-                    </li>
-                    <li class="flex justify-between items-center price-item rounded-lg px-4 py-2">
-                        <span class="font-bold text-lg">5-Pack (0.5g ea)</span>
-                        <span class="text-lg font-bold text-white">$20.00</span>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Single Product: Sugared Haze -->
-            <div class="product-card rounded-xl p-6 shadow-xl" tabindex="0">
-                <h3 class="text-2xl font-bold text-emerald-400 mb-2">Sugared Haze</h3>
-                <div class="cannabinoid-data text-base">
-                    <span>THC: <span class="cannabinoid-value">22.39%</span></span>
-                    <span class="data-divider">|</span>
-                    <span>Total Cannabinoids: <span class="cannabinoid-value">25.90%</span></span>
-                </div>
-                <p class="text-gray-400 mb-4">Sweet and hazy sativa, perfect for a creative boost.</p>
-                <ul class="space-y-3">
-                    <li class="flex justify-between items-center price-item rounded-lg px-4 py-2">
-                        <span class="font-bold text-lg">Single 1g Pre-Roll</span>
-                        <span class="text-lg font-bold text-white">$7.00</span>
-                    </li>
-                </ul>
-            </div>
-            
-            <!-- Strain: Purple Haze (Now just uses the individual sold-out style for consistency) -->
-            <div class="product-card rounded-xl p-6 shadow-xl" tabindex="0">
-                <h3 class="text-2xl font-bold text-purple-500 mb-2">Purple Haze</h3>
-                <div class="cannabinoid-data text-base">
-                    <span>THC: <span class="cannabinoid-value">27.14%</span></span>
-                    <span class="data-divider">|</span>
-                    <span>Total Cannabinoids: <span class="cannabinoid-value">32.15%</span></span>
-                </div>
-                <p class="text-gray-400 mb-4">A legendary strain known for its euphoric effects.</p>
-                <ul class="space-y-3">
-                    <!-- MARKED AS SOLD OUT with custom red strike -->
-                    <li class="flex justify-between items-center rounded-lg px-4 py-2 sold-out-item">
-                        <span class="font-bold text-lg">Eighth Jar (3.5g)</span>
-                        <span class="text-lg font-bold">SOLD OUT</span>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Single Product: Permanent Cream -->
-            <div class="product-card rounded-xl p-6 shadow-xl" tabindex="0">
-                <h3 class="text-2xl font-bold text-yellow-300 mb-2">Permanent Cream</h3>
-                <div class="cannabinoid-data text-base">
-                    <span>THC: <span class="cannabinoid-value">26.21%</span></span>
-                    <span class="data-divider">|</span>
-                    <span>Total Cannabinoids: <span class="cannabinoid-value">30.87%</span></span>
-                </div>
-                <p class="text-gray-400 mb-4">A creamy indica for deep relaxation.</p>
-                <ul class="space-y-3">
-                    <li class="flex justify-between items-center price-item rounded-lg px-4 py-2">
-                        <span class="font-bold text-lg">Single 1g Pre-Roll</span>
-                        <span class="text-lg font-bold text-white">$7.00</span>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Single Product: Sour Crunch -->
-            <div class="product-card rounded-xl p-6 shadow-xl" tabindex="0">
-                <h3 class="text-2xl font-bold text-lime-400 mb-2">Sour Crunch</h3>
-                <div class="cannabinoid-data text-base">
-                    <span>THC: <span class="cannabinoid-value">22.74%</span></span>
-                    <span class="data-divider">|</span>
-                    <span>Total Cannabinoids: <span class="cannabinoid-value">26.71%</span></span>
-                </div>
-                <p class="text-gray-400 mb-4">A tangy and potent sativa to fuel your day.</p>
-                <ul class="space-y-3">
-                    <li class="flex justify-between items-center price-item rounded-lg px-4 py-2">
-                        <span class="font-bold text-lg">Single 1g Pre-Roll</span>
-                        <span class="text-lg font-bold text-white">$7.00</span>
-                    </li>
-                </ul>
-            </div>
-        </section>
+        </div>
     </div>
-</body>
-</html>
+
+    <div class="menu-item" style="border-style: dashed; opacity: 0.7;">
+        <div class="header-row">
+            <h3 class="item-name">Grapefruit Chem</h3>
+            <span class="badge type-soon">Coming Soon</span>
+        </div>
+        <span class="lineage">Grapefruit × Chemdawg</span>
+        <p class="description">A potent fusion of tart citrus and classic chemical funk. Arriving soon in premium flower.</p>
+        <div class="pricing-grid single">
+            <div class="price-tier">
+                <span class="tier-name">3.5g Flower</span>
+                <span class="tier-price">TBA</span>
+                <span class="case-count">Case of 24</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="menu-item">
+        <div class="header-row">
+            <h3 class="item-name">BX Runtz</h3>
+            <span class="badge type-hybrid">Hybrid</span>
+        </div>
+        <span class="lineage">Gelato 33 × Zkittlez</span>
+        <p class="description">Sweet tropical fruit and creamy gelato flavors hit immediately. Balanced effects for any session.</p>
+        <div class="pricing-grid">
+            <div class="price-tier">
+                <span class="tier-name">3.5g Flower</span>
+                <span class="tier-price">$25</span>
+                <span class="case-count">Case of 24</span>
+            </div>
+            <div class="price-tier">
+                <span class="tier-name">1g Pre Roll</span>
+                <span class="tier-price">$7</span>
+                <span class="case-count">Case of 50</span>
+            </div>
+            <div class="price-tier">
+                <span class="tier-name">5-Pack</span>
+                <span class="tier-price">$20</span>
+                <span class="case-count">Case of 20</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="menu-item">
+        <div class="header-row">
+            <h3 class="item-name">Sour Joker</h3>
+            <span class="badge type-sativa">Sativa</span>
+        </div>
+        <span class="lineage">Sour Diesel × Amnesia Haze</span>
+        <p class="description">Sharp diesel funk mixed with bright citrus. An energetic, heady profile.</p>
+        <div class="pricing-grid">
+            <div class="price-tier">
+                <span class="tier-name">3.5g Flower</span>
+                <span class="tier-price">$25</span>
+                <span class="case-count">Case of 24</span>
+            </div>
+            <div class="price-tier">
+                <span class="tier-name">1g Pre Roll</span>
+                <span class="tier-price">$7</span>
+                <span class="case-count">Case of 50</span>
+            </div>
+            <div class="price-tier">
+                <span class="tier-name">5-Pack</span>
+                <span class="tier-price">$20</span>
+                <span class="case-count">Case of 20</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="menu-item">
+        <div class="header-row">
+            <h3 class="item-name">Purple Toast</h3>
+            <span class="badge type-indica">Indica</span>
+        </div>
+        <span class="lineage">Purple Punch × French Toast</span>
+        <p class="description">Rich grape sweetness with warm, bakery-style notes. Smooth berry and vanilla finish.</p>
+        <div class="pricing-grid">
+            <div class="price-tier">
+                <span class="tier-name">3.5g Flower</span>
+                <span class="tier-price">$25</span>
+                <span class="case-count">Case of 24</span>
+            </div>
+            <div class="price-tier">
+                <span class="tier-name">1g Pre Roll</span>
+                <span class="tier-price">$7</span>
+                <span class="case-count">Case of 50</span>
+            </div>
+            <div class="price-tier">
+                <span class="tier-name">5-Pack</span>
+                <span class="tier-price">$20</span>
+                <span class="case-count">Case of 20</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="menu-item">
+        <div class="header-row">
+            <h3 class="item-name">Purple Haze</h3>
+            <span class="badge type-sativa">Sativa</span>
+        </div>
+        <span class="lineage">Purple Thai × Haze</span>
+        <p class="description">Floral haze aromas layered with subtle berry and spice. A timeless cerebral experience.</p>
+        <div class="pricing-grid single">
+            <div class="price-tier">
+                <span class="tier-name">3.5g Flower</span>
+                <span class="tier-price">$25</span>
+                <span class="case-count">Case of 24</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="menu-item">
+        <div class="header-row">
+            <h3 class="item-name">Permanent Cream</h3>
+            <span class="badge type-indica">Indica</span>
+        </div>
+        <span class="lineage">Permanent Marker × Cream Smoothie</span>
+        <p class="description">Sharp, gassy notes with a smooth, dessert-like creaminess. Heavy and relaxing.</p>
+        <div class="pricing-grid single">
+            <div class="price-tier">
+                <span class="tier-name">1 Gram Pre Roll</span>
+                <span class="tier-price">$7</span>
+                <span class="case-count">Case of 50</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="menu-item">
+        <div class="header-row">
+            <h3 class="item-name">Sour Crunch</h3>
+            <span class="badge type-sativa">Sativa</span>
+        </div>
+        <span class="lineage">Sour Diesel × Crunch Berries</span>
+        <p class="description">Blends classic diesel punch with sweet, berry-cereal flavors. Loud and tangy.</p>
+        <div class="pricing-grid single">
+            <div class="price-tier">
+                <span class="tier-name">1 Gram Pre Roll</span>
+                <span class="tier-price">$7</span>
+                <span class="case-count">Case of 50</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="menu-item">
+        <div class="header-row">
+            <h3 class="item-name">Sugared Haze</h3>
+            <span class="badge type-sativa">Sativa</span>
+        </div>
+        <span class="lineage">Sugar Factory × Purple Haze</span>
+        <p class="description">Light, sweet, and aromatic with sugary berry notes. Perfect daytime vibe.</p>
+        <div class="pricing-grid single">
+            <div class="price-tier">
+                <span class="tier-name">1 Gram Pre Roll</span>
+                <span class="tier-price">$7</span>
+                <span class="case-count">Case of 50</span>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <p>MUST BE 21+ • FYRE BY FARM2HAND</p>
+</footer>
