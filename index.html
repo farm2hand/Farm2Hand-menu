@@ -46,23 +46,44 @@
         50% { opacity: 1; transform: scale(1.1); }
     }
 
-    header { text-align: center; padding: 80px 20px 40px; }
+    header { text-align: center; padding: 60px 20px 40px; }
 
     .logo-img { 
         max-width: 380px; 
-        width: 100%; 
+        width: 90%; 
         filter: drop-shadow(0 0 20px rgba(255, 95, 31, 0.6));
         animation: pulse-logo 3s infinite ease-in-out;
     }
 
     @keyframes pulse-logo {
         0%, 100% { transform: scale(1); filter: drop-shadow(0 0 15px rgba(255, 95, 31, 0.4)); }
-        50% { transform: scale(1.08); filter: drop-shadow(0 0 40px rgba(255, 95, 31, 0.9)); }
+        50% { transform: scale(1.05); filter: drop-shadow(0 0 40px rgba(255, 95, 31, 0.9)); }
     }
 
     .subtitle { color: var(--text-dim); text-transform: uppercase; letter-spacing: 7px; font-size: 1rem; font-weight: 700; margin-top: 20px; }
 
-    .container { max-width: 520px; margin: 0 auto; padding: 0 20px; }
+    /* --- RESPONSIVE GRID CONTAINER --- */
+    .container { 
+        max-width: 1400px; 
+        margin: 0 auto; 
+        padding: 0 20px;
+        display: grid;
+        gap: 25px;
+        /* Default: iPhone (1 Column) */
+        grid-template-columns: 1fr;
+    }
+
+    /* iPad Styling (2 Columns) */
+    @media (min-width: 768px) {
+        .container { grid-template-columns: repeat(2, 1fr); gap: 30px; }
+        .logo-img { max-width: 450px; }
+    }
+
+    /* Mac/Desktop Styling (3 Columns) */
+    @media (min-width: 1100px) {
+        .container { grid-template-columns: repeat(3, 1fr); gap: 40px; }
+        .logo-img { max-width: 500px; }
+    }
 
     .menu-item {
         background: var(--card-bg);
@@ -71,40 +92,45 @@
         border: 1px solid var(--glass-border);
         border-radius: 32px;
         padding: 30px;
-        margin-bottom: 35px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+        transition: transform 0.3s ease;
     }
 
+    .menu-item:hover { transform: translateY(-10px); border-color: var(--accent-fire); }
+
     .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-    .item-name { font-size: 2.4rem; font-weight: 800; }
+    .item-name { font-size: 2.2rem; font-weight: 800; margin: 0; }
 
-    .lineage { color: var(--accent-fire); font-size: 1.1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 18px; display: block; }
+    .lineage { color: var(--accent-fire); font-size: 1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 18px; display: block; }
 
-    .description { font-size: 1.2rem; font-weight: 500; margin-bottom: 28px; color: #fff; line-height: 1.5; }
+    .description { font-size: 1.15rem; font-weight: 500; margin-bottom: 25px; color: #fff; line-height: 1.5; flex-grow: 1; }
 
-    .badge { font-size: 0.85rem; font-weight: 800; padding: 8px 16px; border-radius: 12px; text-transform: uppercase; }
+    .badge { font-size: 0.8rem; font-weight: 800; padding: 6px 14px; border-radius: 10px; text-transform: uppercase; white-space: nowrap; }
     .type-sativa { background: var(--sativa); color: #000; }
     .type-indica { background: var(--indica); color: #fff; }
     .type-hybrid { background: var(--hybrid); color: #fff; }
     .type-soon { background: #555; color: #fff; }
 
-    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: auto; }
     .pricing-grid.single { grid-template-columns: 1fr; }
 
     .price-tier {
         background: rgba(0, 0, 0, 0.45);
-        border-radius: 20px;
-        padding: 18px 8px;
+        border-radius: 18px;
+        padding: 15px 5px;
         text-align: center;
         border: 1px solid rgba(255,255,255,0.12);
     }
 
-    .tier-name { display: block; font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; font-weight: 700; margin-bottom: 5px; }
-    .tier-price { font-size: 1.6rem; font-weight: 900; line-height: 1; margin-bottom: 6px; display: block; color: #fff; }
+    .tier-name { display: block; font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; font-weight: 700; margin-bottom: 5px; }
+    .tier-price { font-size: 1.4rem; font-weight: 900; line-height: 1; margin-bottom: 6px; display: block; color: #fff; }
     
     .case-count { 
         display: block; 
-        font-size: 0.75rem; 
+        font-size: 0.7rem; 
         color: var(--accent-fire); 
         font-weight: 900; 
         text-transform: uppercase;
@@ -113,7 +139,7 @@
         margin-top: 6px;
     }
 
-    footer { text-align: center; padding: 80px; font-size: 1rem; color: var(--text-dim); letter-spacing: 3px; font-weight: 700; }
+    footer { text-align: center; padding: 80px; font-size: 1.1rem; color: var(--text-dim); letter-spacing: 4px; font-weight: 800; }
 </style>
 
 <header>
@@ -124,186 +150,136 @@
 <div class="container">
 
     <div class="menu-item" style="border-style: dashed; opacity: 0.7;">
-        <div class="header-row">
-            <h3 class="item-name">Uptown Piff</h3>
-            <span class="badge type-soon">Coming Soon</span>
+        <div>
+            <div class="header-row">
+                <h3 class="item-name">Uptown Piff</h3>
+                <span class="badge type-soon">Soon</span>
+            </div>
+            <span class="lineage">The Legendary NYC Haze</span>
+            <p class="description">Authentic NYC incense and frankincense notes with that unmistakable electric head-high. The church is back.</p>
         </div>
-        <span class="lineage">The Legendary NYC Haze</span>
-        <p class="description">The church is back. Authentic NYC incense and frankincense notes with that unmistakable electric piff head-high.</p>
         <div class="pricing-grid">
-            <div class="price-tier">
-                <span class="tier-name">3.5g Flower</span>
-                <span class="tier-price">TBA</span>
-                <span class="case-count">Case of 24</span>
-            </div>
-            <div class="price-tier">
-                <span class="tier-name">1g Pre Roll</span>
-                <span class="tier-price">TBA</span>
-                <span class="case-count">Case of 50</span>
-            </div>
-            <div class="price-tier">
-                <span class="tier-name">5-Pack</span>
-                <span class="tier-price">TBA</span>
-                <span class="case-count">Case of 20</span>
-            </div>
+            <div class="price-tier"><span class="tier-name">3.5g</span><span class="tier-price">TBA</span><span class="case-count">Case 24</span></div>
+            <div class="price-tier"><span class="tier-name">Pre Roll</span><span class="tier-price">TBA</span><span class="case-count">Case 50</span></div>
+            <div class="price-tier"><span class="tier-name">5-Pack</span><span class="tier-price">TBA</span><span class="case-count">Case 20</span></div>
         </div>
     </div>
 
     <div class="menu-item" style="border-style: dashed; opacity: 0.7;">
-        <div class="header-row">
-            <h3 class="item-name">Grapefruit Chem</h3>
-            <span class="badge type-soon">Coming Soon</span>
-        </div>
-        <span class="lineage">Grapefruit × Chemdawg</span>
-        <p class="description">A potent fusion of tart citrus and classic chemical funk. Arriving soon in premium flower.</p>
-        <div class="pricing-grid single">
-            <div class="price-tier">
-                <span class="tier-name">3.5g Flower</span>
-                <span class="tier-price">TBA</span>
-                <span class="case-count">Case of 24</span>
+        <div>
+            <div class="header-row">
+                <h3 class="item-name">Grapefruit Chem</h3>
+                <span class="badge type-soon">Soon</span>
             </div>
+            <span class="lineage">Grapefruit × Chemdawg</span>
+            <p class="description">A potent fusion of tart citrus and classic chemical funk. Arriving soon in premium flower.</p>
+        </div>
+        <div class="pricing-grid single">
+            <div class="price-tier"><span class="tier-name">3.5g Flower</span><span class="tier-price">TBA</span><span class="case-count">Case 24</span></div>
         </div>
     </div>
 
     <div class="menu-item">
-        <div class="header-row">
-            <h3 class="item-name">BX Runtz</h3>
-            <span class="badge type-hybrid">Hybrid</span>
+        <div>
+            <div class="header-row">
+                <h3 class="item-name">BX Runtz</h3>
+                <span class="badge type-hybrid">Hybrid</span>
+            </div>
+            <span class="lineage">Gelato 33 × Zkittlez</span>
+            <p class="description">Sweet tropical fruit and creamy gelato flavors hit immediately. Balanced effects for any session.</p>
         </div>
-        <span class="lineage">Gelato 33 × Zkittlez</span>
-        <p class="description">Sweet tropical fruit and creamy gelato flavors hit immediately. Balanced effects for any session.</p>
         <div class="pricing-grid">
-            <div class="price-tier">
-                <span class="tier-name">3.5g Flower</span>
-                <span class="tier-price">$25</span>
-                <span class="case-count">Case of 24</span>
-            </div>
-            <div class="price-tier">
-                <span class="tier-name">1g Pre Roll</span>
-                <span class="tier-price">$7</span>
-                <span class="case-count">Case of 50</span>
-            </div>
-            <div class="price-tier">
-                <span class="tier-name">5-Pack</span>
-                <span class="tier-price">$20</span>
-                <span class="case-count">Case of 20</span>
-            </div>
+            <div class="price-tier"><span class="tier-name">3.5g</span><span class="tier-price">$25</span><span class="case-count">Case 24</span></div>
+            <div class="price-tier"><span class="tier-name">Pre Roll</span><span class="tier-price">$7</span><span class="case-count">Case 50</span></div>
+            <div class="price-tier"><span class="tier-name">5-Pack</span><span class="tier-price">$20</span><span class="case-count">Case 20</span></div>
         </div>
     </div>
 
     <div class="menu-item">
-        <div class="header-row">
-            <h3 class="item-name">Sour Joker</h3>
-            <span class="badge type-sativa">Sativa</span>
+        <div>
+            <div class="header-row">
+                <h3 class="item-name">Sour Joker</h3>
+                <span class="badge type-sativa">Sativa</span>
+            </div>
+            <span class="lineage">Sour Diesel × Amnesia Haze</span>
+            <p class="description">Sharp diesel funk mixed with bright citrus. An energetic, heady profile that hits hard.</p>
         </div>
-        <span class="lineage">Sour Diesel × Amnesia Haze</span>
-        <p class="description">Sharp diesel funk mixed with bright citrus. An energetic, heady profile.</p>
         <div class="pricing-grid">
-            <div class="price-tier">
-                <span class="tier-name">3.5g Flower</span>
-                <span class="tier-price">$25</span>
-                <span class="case-count">Case of 24</span>
-            </div>
-            <div class="price-tier">
-                <span class="tier-name">1g Pre Roll</span>
-                <span class="tier-price">$7</span>
-                <span class="case-count">Case of 50</span>
-            </div>
-            <div class="price-tier">
-                <span class="tier-name">5-Pack</span>
-                <span class="tier-price">$20</span>
-                <span class="case-count">Case of 20</span>
-            </div>
+            <div class="price-tier"><span class="tier-name">3.5g</span><span class="tier-price">$25</span><span class="case-count">Case 24</span></div>
+            <div class="price-tier"><span class="tier-name">Pre Roll</span><span class="tier-price">$7</span><span class="case-count">Case 50</span></div>
+            <div class="price-tier"><span class="tier-name">5-Pack</span><span class="tier-price">$20</span><span class="case-count">Case 20</span></div>
         </div>
     </div>
 
     <div class="menu-item">
-        <div class="header-row">
-            <h3 class="item-name">Purple Toast</h3>
-            <span class="badge type-indica">Indica</span>
+        <div>
+            <div class="header-row">
+                <h3 class="item-name">Purple Toast</h3>
+                <span class="badge type-indica">Indica</span>
+            </div>
+            <span class="lineage">Purple Punch × French Toast</span>
+            <p class="description">Rich grape sweetness with warm, bakery-style notes. Smooth berry and vanilla finish.</p>
         </div>
-        <span class="lineage">Purple Punch × French Toast</span>
-        <p class="description">Rich grape sweetness with warm, bakery-style notes. Smooth berry and vanilla finish.</p>
         <div class="pricing-grid">
-            <div class="price-tier">
-                <span class="tier-name">3.5g Flower</span>
-                <span class="tier-price">$25</span>
-                <span class="case-count">Case of 24</span>
-            </div>
-            <div class="price-tier">
-                <span class="tier-name">1g Pre Roll</span>
-                <span class="tier-price">$7</span>
-                <span class="case-count">Case of 50</span>
-            </div>
-            <div class="price-tier">
-                <span class="tier-name">5-Pack</span>
-                <span class="tier-price">$20</span>
-                <span class="case-count">Case of 20</span>
-            </div>
+            <div class="price-tier"><span class="tier-name">3.5g</span><span class="tier-price">$25</span><span class="case-count">Case 24</span></div>
+            <div class="price-tier"><span class="tier-name">Pre Roll</span><span class="tier-price">$7</span><span class="case-count">Case 50</span></div>
+            <div class="price-tier"><span class="tier-name">5-Pack</span><span class="tier-price">$20</span><span class="case-count">Case 20</span></div>
         </div>
     </div>
 
     <div class="menu-item">
-        <div class="header-row">
-            <h3 class="item-name">Purple Haze</h3>
-            <span class="badge type-sativa">Sativa</span>
-        </div>
-        <span class="lineage">Purple Thai × Haze</span>
-        <p class="description">Floral haze aromas layered with subtle berry and spice. A timeless cerebral experience.</p>
-        <div class="pricing-grid single">
-            <div class="price-tier">
-                <span class="tier-name">3.5g Flower</span>
-                <span class="tier-price">$25</span>
-                <span class="case-count">Case of 24</span>
+        <div>
+            <div class="header-row">
+                <h3 class="item-name">Purple Haze</h3>
+                <span class="badge type-sativa">Sativa</span>
             </div>
+            <span class="lineage">Thai × Haze</span>
+            <p class="description">Floral haze aromas layered with subtle berry and spice. A timeless cerebral experience.</p>
+        </div>
+        <div class="pricing-grid single">
+            <div class="price-tier"><span class="tier-name">3.5g Flower</span><span class="tier-price">$25</span><span class="case-count">Case 24</span></div>
         </div>
     </div>
 
     <div class="menu-item">
-        <div class="header-row">
-            <h3 class="item-name">Permanent Cream</h3>
-            <span class="badge type-indica">Indica</span>
-        </div>
-        <span class="lineage">Permanent Marker × Cream Smoothie</span>
-        <p class="description">Sharp, gassy notes with a smooth, dessert-like creaminess. Heavy and relaxing.</p>
-        <div class="pricing-grid single">
-            <div class="price-tier">
-                <span class="tier-name">1 Gram Pre Roll</span>
-                <span class="tier-price">$7</span>
-                <span class="case-count">Case of 50</span>
+        <div>
+            <div class="header-row">
+                <h3 class="item-name">Perm. Cream</h3>
+                <span class="badge type-indica">Indica</span>
             </div>
+            <span class="lineage">Marker × Cream Smoothie</span>
+            <p class="description">Sharp, gassy notes with a smooth, dessert-like creaminess. Heavy and relaxing.</p>
+        </div>
+        <div class="pricing-grid single">
+            <div class="price-tier"><span class="tier-name">1 Gram Pre Roll</span><span class="tier-price">$7</span><span class="case-count">Case 50</span></div>
         </div>
     </div>
 
     <div class="menu-item">
-        <div class="header-row">
-            <h3 class="item-name">Sour Crunch</h3>
-            <span class="badge type-sativa">Sativa</span>
-        </div>
-        <span class="lineage">Sour Diesel × Crunch Berries</span>
-        <p class="description">Blends classic diesel punch with sweet, berry-cereal flavors. Loud and tangy.</p>
-        <div class="pricing-grid single">
-            <div class="price-tier">
-                <span class="tier-name">1 Gram Pre Roll</span>
-                <span class="tier-price">$7</span>
-                <span class="case-count">Case of 50</span>
+        <div>
+            <div class="header-row">
+                <h3 class="item-name">Sour Crunch</h3>
+                <span class="badge type-sativa">Sativa</span>
             </div>
+            <span class="lineage">Diesel × Crunch Berries</span>
+            <p class="description">Blends classic diesel punch with sweet, berry-cereal flavors. Loud and tangy.</p>
+        </div>
+        <div class="pricing-grid single">
+            <div class="price-tier"><span class="tier-name">1 Gram Pre Roll</span><span class="tier-price">$7</span><span class="case-count">Case 50</span></div>
         </div>
     </div>
 
     <div class="menu-item">
-        <div class="header-row">
-            <h3 class="item-name">Sugared Haze</h3>
-            <span class="badge type-sativa">Sativa</span>
-        </div>
-        <span class="lineage">Sugar Factory × Purple Haze</span>
-        <p class="description">Light, sweet, and aromatic with sugary berry notes. Perfect daytime vibe.</p>
-        <div class="pricing-grid single">
-            <div class="price-tier">
-                <span class="tier-name">1 Gram Pre Roll</span>
-                <span class="tier-price">$7</span>
-                <span class="case-count">Case of 50</span>
+        <div>
+            <div class="header-row">
+                <h3 class="item-name">Sugared Haze</h3>
+                <span class="badge type-sativa">Sativa</span>
             </div>
+            <span class="lineage">Factory × Purple Haze</span>
+            <p class="description">Light, sweet, and aromatic with sugary berry notes. Perfect daytime vibe.</p>
+        </div>
+        <div class="pricing-grid single">
+            <div class="price-tier"><span class="tier-name">1 Gram Pre Roll</span><span class="tier-price">$7</span><span class="case-count">Case 50</span></div>
         </div>
     </div>
 
