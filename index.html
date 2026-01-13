@@ -31,73 +31,86 @@
         100% { background-position: 0% 50%; }
     }
 
-    body::before {
-        content: "";
-        position: fixed;
-        top: 0; left: 0; width: 100%; height: 100%;
-        background: radial-gradient(circle at 50% 100%, rgba(255, 69, 0, 0.2) 0%, transparent 70%);
-        pointer-events: none;
-        z-index: -1;
-        animation: flicker 4s infinite alternate;
-    }
-
-    @keyframes flicker {
-        0%, 100% { opacity: 0.5; }
-        50% { opacity: 1; transform: scale(1.1); }
-    }
-
     header { text-align: center; padding: 60px 0 30px; }
 
+    /* --- GLOWING LOGO SECTION --- */
     .logo-img { 
         max-width: 400px; 
         width: 90%; 
-        filter: drop-shadow(0 0 20px rgba(255, 95, 31, 0.6));
-        animation: pulse-logo 3s infinite ease-in-out;
+        filter: drop-shadow(0 0 15px rgba(255, 95, 31, 0.5));
+        animation: logoGlow 3s infinite ease-in-out;
     }
 
-    @keyframes pulse-logo {
-        0%, 100% { transform: scale(1); filter: drop-shadow(0 0 15px rgba(255, 95, 31, 0.4)); }
-        50% { transform: scale(1.05); filter: drop-shadow(0 0 40px rgba(255, 95, 31, 0.9)); }
+    @keyframes logoGlow {
+        0%, 100% { 
+            filter: drop-shadow(0 0 10px rgba(255, 95, 31, 0.4)); 
+            transform: scale(1);
+        }
+        50% { 
+            filter: drop-shadow(0 0 35px rgba(255, 95, 31, 0.9)); 
+            transform: scale(1.03);
+        }
     }
 
     .subtitle { color: var(--text-dim); text-transform: uppercase; letter-spacing: 7px; font-size: 0.9rem; font-weight: 700; margin-top: 15px; }
 
-    /* --- THE CONTAINER (STRICT SINGLE COLUMN ON MOBILE) --- */
+    /* --- CONTAINER (FORCED SINGLE COLUMN ON MOBILE) --- */
     .container { 
         width: 100%;
-        display: block; /* Forces vertical stacking */
+        display: block; 
         padding: 0;
     }
 
-    /* --- THE GRID (TABLET & MAC ONLY) --- */
-    @media (min-width: 900px) {
+    @media (min-width: 850px) {
         .container { 
             display: grid; 
             grid-template-columns: repeat(2, 1fr); 
             gap: 25px; 
             padding: 0 20px;
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
         }
     }
 
     @media (min-width: 1300px) {
-        .container { grid-template-columns: repeat(3, 1fr); max-width: 1500px; }
+        .container { 
+            grid-template-columns: repeat(3, 1fr); 
+            max-width: 1500px; 
+        }
     }
 
+    /* --- CELL EFFECTS --- */
     .menu-item {
         background: var(--card-bg);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         border: 1px solid var(--glass-border);
-        padding: 35px 20px;
-        margin-bottom: 15px; /* Spacing between cells on mobile */
+        padding: 40px 20px;
+        margin-bottom: 12px;
         display: flex;
         flex-direction: column;
         box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    /* Rounded corners only when not touching screen edges */
+    /* Desktop Hover Lift */
+    @media (min-width: 850px) {
+        .menu-item:hover {
+            transform: translateY(-12px);
+            border-color: var(--accent-fire);
+            background: rgba(255, 95, 31, 0.08);
+            box-shadow: 0 25px 50px rgba(255, 95, 31, 0.25);
+        }
+    }
+
+    /* Mobile Active Press */
+    @media (max-width: 849px) {
+        .menu-item:active {
+            transform: scale(0.97);
+            background: rgba(255, 95, 31, 0.1);
+        }
+    }
+
     @media (min-width: 600px) {
         .menu-item { border-radius: 32px; margin: 0 10px 30px; }
     }
@@ -156,7 +169,7 @@
             <span class="badge type-soon">Soon</span>
         </div>
         <span class="lineage">The Legendary NYC Haze</span>
-        <p class="description">The church is back. Authentic NYC incense and frankincense notes with that unmistakable electric piff head-high.</p>
+        <p class="description">Authentic NYC incense and frankincense notes with that unmistakable electric piff head-high.</p>
         <div class="pricing-grid">
             <div class="price-tier"><span class="tier-name">3.5g</span><span class="tier-price">TBA</span><span class="case-count">Case 24</span></div>
             <div class="price-tier"><span class="tier-name">1g Roll</span><span class="tier-price">TBA</span><span class="case-count">Case 50</span></div>
@@ -232,10 +245,10 @@
 
     <div class="menu-item">
         <div class="header-row">
-            <h3 class="item-name">Perm. Cream</h3>
+            <h3 class="item-name">Permanent Cream</h3>
             <span class="badge type-indica">Indica</span>
         </div>
-        <span class="lineage">Marker × Cream Smoothie</span>
+        <span class="lineage">Permanent Marker × Cream Smoothie</span>
         <p class="description">Sharp, gassy notes with a smooth, dessert-like creaminess. Heavy and relaxing.</p>
         <div class="pricing-grid single">
             <div class="price-tier"><span class="tier-name">1 Gram Pre Roll</span><span class="tier-price">$7</span><span class="case-count">Case 50</span></div>
