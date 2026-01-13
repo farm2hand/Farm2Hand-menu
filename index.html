@@ -48,7 +48,7 @@
 
     .subtitle { color: var(--text-dim); text-transform: uppercase; letter-spacing: 7px; font-size: 0.9rem; font-weight: 700; margin-top: 15px; }
 
-    /* CONTAINER LOGIC (FORCED SINGLE COLUMN ON IPHONE) */
+    /* FORCED SINGLE COLUMN FOR IPHONE */
     .container { width: 100%; display: block; padding: 0; }
 
     @media (min-width: 850px) {
@@ -59,7 +59,6 @@
         .container { grid-template-columns: repeat(3, 1fr); max-width: 1500px; }
     }
 
-    /* CELL TRANSITIONS */
     .menu-item {
         background: var(--card-bg);
         backdrop-filter: blur(20px);
@@ -69,17 +68,16 @@
         margin-bottom: 12px;
         display: flex;
         flex-direction: column;
-        box-shadow: 0 15px 40px rgba(0,0,0,0.6);
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     @media (min-width: 850px) {
-        .menu-item:hover { transform: translateY(-12px); border-color: var(--accent-fire); background: rgba(255, 95, 31, 0.08); }
+        .menu-item:hover { transform: translateY(-10px); border-color: var(--accent-fire); background: rgba(255, 95, 31, 0.08); }
     }
 
     @media (max-width: 849px) {
-        .menu-item:active { transform: scale(0.97); background: rgba(255, 95, 31, 0.1); }
         .menu-item { border-radius: 0; }
+        .menu-item:active { transform: scale(0.98); }
     }
 
     @media (min-width: 600px) {
@@ -109,10 +107,9 @@
         border: 1px solid rgba(255,255,255,0.1);
     }
 
-    /* SOLD OUT STATE */
-    .sold-out { opacity: 0.35; border: 1px dashed #ff4444 !important; position: relative; }
-    .sold-out .tier-price { color: #ff4444; text-decoration: line-through; font-size: 1.4rem; }
-    .sold-out::after { content: "SOLD OUT"; position: absolute; bottom: 5px; left: 50%; transform: translateX(-50%); font-size: 0.55rem; color: #ff4444; font-weight: 900; }
+    /* SOLD OUT LOGIC */
+    .sold-out { opacity: 0.3; border: 1px dashed #ff4444 !important; }
+    .sold-out .tier-price { color: #ff4444; text-decoration: line-through; }
 
     .tier-name { display: block; font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; font-weight: 700; margin-bottom: 5px; }
     .tier-price { font-size: 1.8rem; font-weight: 900; line-height: 1; margin-bottom: 5px; display: block; color: #fff; }
@@ -152,7 +149,7 @@
             <span class="badge type-soon">Soon</span>
         </div>
         <span class="lineage">Grapefruit × Chemdawg</span>
-        <p class="description">A potent fusion of tart citrus and classic chemical funk. Arriving soon in premium flower.</p>
+        <p class="description">A potent fusion of tart citrus and classic chemical funk. Arriving soon.</p>
         <div class="pricing-grid single">
             <div class="price-tier"><span class="tier-name">3.5g Flower</span><span class="tier-price">TBA</span><span class="case-count">Case 24</span></div>
         </div>
@@ -164,7 +161,7 @@
             <span class="badge type-hybrid">Hybrid</span>
         </div>
         <span class="lineage">Gelato 33 × Zkittlez</span>
-        <p class="description">Sweet tropical fruit and creamy gelato flavors hit immediately. Balanced effects for any session.</p>
+        <p class="description">Sweet tropical fruit and creamy gelato flavors. Balanced effects for any session.</p>
         <div class="pricing-grid">
             <div class="price-tier"><span class="tier-name">3.5g</span><span class="tier-price">$25</span><span class="case-count">Case 24</span></div>
             <div class="price-tier"><span class="tier-name">1g Roll</span><span class="tier-price">$7</span><span class="case-count">Case 50</span></div>
@@ -178,7 +175,7 @@
             <span class="badge type-sativa">Sativa</span>
         </div>
         <span class="lineage">Sour Diesel × Amnesia Haze</span>
-        <p class="description">Sharp diesel funk mixed with bright citrus. An energetic, heady profile that hits hard.</p>
+        <p class="description">Sharp diesel funk mixed with bright citrus. An energetic, heady profile.</p>
         <div class="pricing-grid">
             <div class="price-tier"><span class="tier-name">3.5g</span><span class="tier-price">$25</span><span class="case-count">Case 24</span></div>
             <div class="price-tier"><span class="tier-name">1g Roll</span><span class="tier-price">$7</span><span class="case-count">Case 50</span></div>
@@ -192,9 +189,9 @@
             <span class="badge type-indica">Indica</span>
         </div>
         <span class="lineage">Purple Punch × French Toast</span>
-        <p class="description">Rich grape sweetness with warm, bakery-style notes. Smooth berry and vanilla finish.</p>
+        <p class="description">Rich grape sweetness with bakery-style notes. Smooth berry finish.</p>
         <div class="pricing-grid">
-            <div class="price-tier sold-out"><span class="tier-name">3.5g</span><span class="tier-price">$25</span><span class="case-count">Out</span></div>
+            <div class="price-tier sold-out"><span class="tier-name">3.5g</span><span class="tier-price">OUT</span><span class="case-count">SOLD</span></div>
             <div class="price-tier"><span class="tier-name">1g Roll</span><span class="tier-price">$7</span><span class="case-count">Case 50</span></div>
             <div class="price-tier"><span class="tier-name">5-Pack</span><span class="tier-price">$20</span><span class="case-count">Case 20</span></div>
         </div>
@@ -206,7 +203,7 @@
             <span class="badge type-sativa">Sativa</span>
         </div>
         <span class="lineage">Thai × Haze</span>
-        <p class="description">Floral haze aromas layered with subtle berry and spice. Timeless cerebral experience.</p>
+        <p class="description">Floral haze aromas with subtle berry. A timeless cerebral experience.</p>
         <div class="pricing-grid single">
             <div class="price-tier"><span class="tier-name">3.5g Flower</span><span class="tier-price">$25</span><span class="case-count">Case 24</span></div>
         </div>
@@ -218,7 +215,7 @@
             <span class="badge type-indica">Indica</span>
         </div>
         <span class="lineage">Permanent Marker × Cream Smoothie</span>
-        <p class="description">Sharp, gassy notes with a smooth, dessert-like creaminess. Heavy and relaxing.</p>
+        <p class="description">Sharp, gassy notes with a dessert-like creaminess. Heavy and relaxing.</p>
         <div class="pricing-grid single">
             <div class="price-tier"><span class="tier-name">1 Gram Pre Roll</span><span class="tier-price">$7</span><span class="case-count">Case 50</span></div>
         </div>
@@ -230,7 +227,7 @@
             <span class="badge type-sativa">Sativa</span>
         </div>
         <span class="lineage">Diesel × Crunch Berries</span>
-        <p class="description">Blends classic diesel punch with sweet, berry-cereal flavors. Loud and tangy.</p>
+        <p class="description">Blends classic diesel punch with sweet berry cereal flavors.</p>
         <div class="pricing-grid single">
             <div class="price-tier"><span class="tier-name">1 Gram Pre Roll</span><span class="tier-price">$7</span><span class="case-count">Case 50</span></div>
         </div>
@@ -242,7 +239,7 @@
             <span class="badge type-sativa">Sativa</span>
         </div>
         <span class="lineage">Factory × Purple Haze</span>
-        <p class="description">Light, sweet, and aromatic with sugary berry notes. Perfect daytime vibe.</p>
+        <p class="description">Light, sweet, and aromatic with sugary berry notes.</p>
         <div class="pricing-grid single">
             <div class="price-tier"><span class="tier-name">1 Gram Pre Roll</span><span class="tier-price">$7</span><span class="case-count">Case 50</span></div>
         </div>
