@@ -33,7 +33,7 @@
 
     header { text-align: center; padding: 60px 0 30px; }
 
-    /* --- GLOWING LOGO SECTION --- */
+    /* GLOWING LOGO */
     .logo-img { 
         max-width: 400px; 
         width: 90%; 
@@ -42,44 +42,24 @@
     }
 
     @keyframes logoGlow {
-        0%, 100% { 
-            filter: drop-shadow(0 0 10px rgba(255, 95, 31, 0.4)); 
-            transform: scale(1);
-        }
-        50% { 
-            filter: drop-shadow(0 0 35px rgba(255, 95, 31, 0.9)); 
-            transform: scale(1.03);
-        }
+        0%, 100% { filter: drop-shadow(0 0 10px rgba(255, 95, 31, 0.4)); transform: scale(1); }
+        50% { filter: drop-shadow(0 0 35px rgba(255, 95, 31, 0.9)); transform: scale(1.03); }
     }
 
     .subtitle { color: var(--text-dim); text-transform: uppercase; letter-spacing: 7px; font-size: 0.9rem; font-weight: 700; margin-top: 15px; }
 
-    /* --- CONTAINER (FORCED SINGLE COLUMN ON MOBILE) --- */
-    .container { 
-        width: 100%;
-        display: block; 
-        padding: 0;
-    }
+    /* CONTAINER LOGIC (FORCED SINGLE COLUMN ON IPHONE) */
+    .container { width: 100%; display: block; padding: 0; }
 
     @media (min-width: 850px) {
-        .container { 
-            display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            gap: 25px; 
-            padding: 0 20px;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
+        .container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; padding: 0 20px; max-width: 1100px; margin: 0 auto; }
     }
 
     @media (min-width: 1300px) {
-        .container { 
-            grid-template-columns: repeat(3, 1fr); 
-            max-width: 1500px; 
-        }
+        .container { grid-template-columns: repeat(3, 1fr); max-width: 1500px; }
     }
 
-    /* --- CELL EFFECTS --- */
+    /* CELL TRANSITIONS */
     .menu-item {
         background: var(--card-bg);
         backdrop-filter: blur(20px);
@@ -93,22 +73,13 @@
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    /* Desktop Hover Lift */
     @media (min-width: 850px) {
-        .menu-item:hover {
-            transform: translateY(-12px);
-            border-color: var(--accent-fire);
-            background: rgba(255, 95, 31, 0.08);
-            box-shadow: 0 25px 50px rgba(255, 95, 31, 0.25);
-        }
+        .menu-item:hover { transform: translateY(-12px); border-color: var(--accent-fire); background: rgba(255, 95, 31, 0.08); }
     }
 
-    /* Mobile Active Press */
     @media (max-width: 849px) {
-        .menu-item:active {
-            transform: scale(0.97);
-            background: rgba(255, 95, 31, 0.1);
-        }
+        .menu-item:active { transform: scale(0.97); background: rgba(255, 95, 31, 0.1); }
+        .menu-item { border-radius: 0; }
     }
 
     @media (min-width: 600px) {
@@ -119,7 +90,6 @@
     .item-name { font-size: 2.8rem; font-weight: 800; margin: 0; letter-spacing: -1px; }
 
     .lineage { color: var(--accent-fire); font-size: 1.1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 16px; display: block; }
-
     .description { font-size: 1.25rem; font-weight: 500; margin-bottom: 30px; color: #fff; line-height: 1.4; }
 
     .badge { font-size: 0.8rem; font-weight: 800; padding: 8px 14px; border-radius: 10px; text-transform: uppercase; }
@@ -139,18 +109,17 @@
         border: 1px solid rgba(255,255,255,0.1);
     }
 
+    /* SOLD OUT STATE */
+    .sold-out { opacity: 0.35; border: 1px dashed #ff4444 !important; position: relative; }
+    .sold-out .tier-price { color: #ff4444; text-decoration: line-through; font-size: 1.4rem; }
+    .sold-out::after { content: "SOLD OUT"; position: absolute; bottom: 5px; left: 50%; transform: translateX(-50%); font-size: 0.55rem; color: #ff4444; font-weight: 900; }
+
     .tier-name { display: block; font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; font-weight: 700; margin-bottom: 5px; }
     .tier-price { font-size: 1.8rem; font-weight: 900; line-height: 1; margin-bottom: 5px; display: block; color: #fff; }
     
     .case-count { 
-        display: block; 
-        font-size: 0.75rem; 
-        color: var(--accent-fire); 
-        font-weight: 900; 
-        text-transform: uppercase;
-        border-top: 1px solid rgba(255,255,255,0.1);
-        padding-top: 6px;
-        margin-top: 6px;
+        display: block; font-size: 0.75rem; color: var(--accent-fire); font-weight: 900; text-transform: uppercase;
+        border-top: 1px solid rgba(255,255,255,0.1); padding-top: 6px; margin-top: 6px;
     }
 
     footer { text-align: center; padding: 80px 20px; font-size: 1.1rem; color: var(--text-dim); letter-spacing: 4px; font-weight: 800; }
@@ -225,7 +194,7 @@
         <span class="lineage">Purple Punch × French Toast</span>
         <p class="description">Rich grape sweetness with warm, bakery-style notes. Smooth berry and vanilla finish.</p>
         <div class="pricing-grid">
-            <div class="price-tier"><span class="tier-name">3.5g</span><span class="tier-price">$25</span><span class="case-count">Case 24</span></div>
+            <div class="price-tier sold-out"><span class="tier-name">3.5g</span><span class="tier-price">$25</span><span class="case-count">Out</span></div>
             <div class="price-tier"><span class="tier-name">1g Roll</span><span class="tier-price">$7</span><span class="case-count">Case 50</span></div>
             <div class="price-tier"><span class="tier-name">5-Pack</span><span class="tier-price">$20</span><span class="case-count">Case 20</span></div>
         </div>
@@ -237,7 +206,7 @@
             <span class="badge type-sativa">Sativa</span>
         </div>
         <span class="lineage">Thai × Haze</span>
-        <p class="description">Floral haze aromas layered with subtle berry and spice. A timeless cerebral experience.</p>
+        <p class="description">Floral haze aromas layered with subtle berry and spice. Timeless cerebral experience.</p>
         <div class="pricing-grid single">
             <div class="price-tier"><span class="tier-name">3.5g Flower</span><span class="tier-price">$25</span><span class="case-count">Case 24</span></div>
         </div>
