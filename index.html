@@ -57,6 +57,7 @@
         .container { grid-template-columns: repeat(3, 1fr); max-width: 1500px; }
     }
 
+    /* --- SCROLL/HOVER ANIMATION --- */
     .menu-item {
         background: var(--card-bg);
         backdrop-filter: blur(20px);
@@ -66,16 +67,26 @@
         margin-bottom: 12px;
         display: flex;
         flex-direction: column;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.6);
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        cursor: pointer;
     }
 
-    /* FULL CARD SOLD OUT STATE */
-    .item-fully-sold-out {
-        opacity: 0.3;
-        filter: grayscale(1);
-        border: 2px dashed #ff4444 !important;
-        pointer-events: none;
+    @media (min-width: 850px) {
+        .menu-item:hover {
+            transform: translateY(-12px) scale(1.02);
+            border-color: var(--accent-fire);
+            background: rgba(255, 95, 31, 0.08);
+            box-shadow: 0 25px 50px rgba(255, 95, 31, 0.3);
+        }
     }
+
+    @media (max-width: 849px) {
+        .menu-item:active { transform: scale(0.97); background: rgba(255, 95, 31, 0.12); }
+        .menu-item { border-radius: 0; }
+    }
+
+    @media (min-width: 600px) { .menu-item { border-radius: 32px; margin: 0 10px 30px; } }
 
     .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
     .item-name { font-size: 2.8rem; font-weight: 800; margin: 0; letter-spacing: -1px; }
@@ -100,6 +111,8 @@
         border: 1px solid rgba(255,255,255,0.1);
     }
 
+    .item-fully-sold-out { opacity: 0.3; filter: grayscale(1); border: 2px dashed #ff4444 !important; pointer-events: none; }
+
     .tier-name { display: block; font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; font-weight: 700; margin-bottom: 5px; }
     .tier-price { font-size: 1.8rem; font-weight: 900; line-height: 1; margin-bottom: 5px; display: block; color: #fff; }
     
@@ -109,9 +122,6 @@
     }
 
     footer { text-align: center; padding: 80px 20px; font-size: 1.1rem; color: var(--text-dim); letter-spacing: 4px; font-weight: 800; }
-
-    @media (max-width: 849px) { .menu-item { border-radius: 0; } }
-    @media (min-width: 600px) { .menu-item { border-radius: 32px; margin: 0 10px 30px; } }
 </style>
 
 <header>
@@ -123,11 +133,25 @@
 
     <div class="menu-item" style="border-style: dashed; opacity: 0.8;">
         <div class="header-row">
+            <h3 class="item-name">NY Sour Diesel</h3>
+            <span class="badge type-soon">Soon</span>
+        </div>
+        <span class="lineage">Original Diesel × Northern Lights</span>
+        <p class="description">The legendary East Coast classic. Pungent fuel and citrus aromas with unmatched energy. Arriving soon.</p>
+        <div class="pricing-grid">
+            <div class="price-tier"><span class="tier-name">3.5g</span><span class="tier-price">TBA</span><span class="case-count">Case 24</span></div>
+            <div class="price-tier"><span class="tier-name">1g Roll</span><span class="tier-price">TBA</span><span class="case-count">Case 50</span></div>
+            <div class="price-tier"><span class="tier-name">5-Pack</span><span class="tier-price">TBA</span><span class="case-count">Case 20</span></div>
+        </div>
+    </div>
+
+    <div class="menu-item" style="border-style: dashed; opacity: 0.8;">
+        <div class="header-row">
             <h3 class="item-name">Uptown Piff</h3>
             <span class="badge type-soon">Soon</span>
         </div>
         <span class="lineage">The Legendary NYC Haze</span>
-        <p class="description">The church is back. Authentic NYC incense notes with an electric head-high.</p>
+        <p class="description">Authentic NYC incense notes with an electric head-high. The church is back.</p>
         <div class="pricing-grid">
             <div class="price-tier"><span class="tier-name">3.5g</span><span class="tier-price">TBA</span><span class="case-count">Case 24</span></div>
             <div class="price-tier"><span class="tier-name">1g Roll</span><span class="tier-price">TBA</span><span class="case-count">Case 50</span></div>
@@ -141,7 +165,7 @@
             <span class="badge type-soon">Soon</span>
         </div>
         <span class="lineage">Grapefruit × Chemdawg</span>
-        <p class="description">A potent fusion of tart citrus and classic chemical funk.</p>
+        <p class="description">A potent fusion of tart citrus and classic chemical funk. Arriving soon.</p>
         <div class="pricing-grid single">
             <div class="price-tier"><span class="tier-name">3.5g Flower</span><span class="tier-price">TBA</span><span class="case-count">Case 24</span></div>
         </div>
@@ -153,7 +177,7 @@
             <span class="badge type-hybrid">Hybrid</span>
         </div>
         <span class="lineage">Gelato 33 × Zkittlez</span>
-        <p class="description">Sweet tropical fruit and creamy gelato flavors. Balanced effects.</p>
+        <p class="description">Sweet tropical fruit and creamy gelato flavors. Balanced effects for any session.</p>
         <div class="pricing-grid">
             <div class="price-tier"><span class="tier-name">3.5g</span><span class="tier-price">$25</span><span class="case-count">Case 24</span></div>
             <div class="price-tier"><span class="tier-name">1g Roll</span><span class="tier-price">$7</span><span class="case-count">Case 50</span></div>
@@ -167,7 +191,7 @@
             <span class="badge type-sativa">Sativa</span>
         </div>
         <span class="lineage">Sour Diesel × Amnesia Haze</span>
-        <p class="description">Sharp diesel funk mixed with bright citrus. Energetic and heady.</p>
+        <p class="description">Sharp diesel funk mixed with bright citrus. An energetic, heady profile.</p>
         <div class="pricing-grid">
             <div class="price-tier"><span class="tier-name">3.5g</span><span class="tier-price">$25</span><span class="case-count">Case 24</span></div>
             <div class="price-tier"><span class="tier-name">1g Roll</span><span class="tier-price">$7</span><span class="case-count">Case 50</span></div>
