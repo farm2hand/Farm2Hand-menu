@@ -207,6 +207,7 @@ header {
     overflow: hidden;
     cursor: pointer;
     color: var(--ink);
+    /* entrance defaults */
     opacity: 0;
     transform: translateY(30px);
     transition: opacity 0.6s cubic-bezier(0.22,1,0.36,1),
@@ -356,6 +357,7 @@ header {
 /* ── PRICING ── */
 .pricing { display:grid; grid-template-columns:repeat(3,1fr); gap:7px; }
 .pricing.one { grid-template-columns:1fr; }
+.pricing.two { grid-template-columns:repeat(2,1fr); }
 .tier {
     background:rgba(155,27,48,0.05);
     border:1px solid rgba(155,27,48,0.1);
@@ -378,6 +380,14 @@ header {
     text-transform:uppercase; color:var(--gold);
     border-top:1px solid rgba(155,27,48,0.08); padding-top:5px;
 }
+/* ── TIER SOLD OUT ── */
+.tier.tier-sold {
+    background: rgba(0,0,0,0.04);
+    border-color: rgba(0,0,0,0.08);
+    opacity: 0.45;
+}
+.tier.tier-sold .t-price { color:rgba(26,4,8,0.25); text-decoration:line-through; }
+.tier.tier-sold .t-case  { color:rgba(155,27,48,0.45); border-top-color:rgba(0,0,0,0.06); }
 
 /* ── EXPAND ── */
 .expand-btn {
@@ -616,6 +626,7 @@ footer {
 <div class="sec" id="available"><strong>Available Now</strong></div>
 <div class="grid" id="available-grid">
 
+    <!-- BX RUNTZ -->
     <div class="card" data-type="hybrid">
         <div class="type-bar"></div>
         <div class="card-top">
@@ -638,16 +649,22 @@ footer {
             <div class="tier"><span class="t-name">1g Roll</span><span class="t-price">$7</span><span class="t-case">Case 50</span></div>
             <div class="tier"><span class="t-name">5-Pack</span><span class="t-price">$20</span><span class="t-case">Case 20</span></div>
         </div>
-        <button class="expand-btn" onclick="toggleDetails(this)">Details <span class="chevron">&#8964;</span></button>
+        <button class="expand-btn" onclick="toggleDetails(this)">
+            Details <span class="chevron">&#8964;</span>
+        </button>
         <div class="card-details">
             <div class="effects-label">Effects</div>
             <div class="effects-list">
-                <span class="effect">Euphoric</span><span class="effect">Creative</span><span class="effect">Relaxed</span><span class="effect">Happy</span>
+                <span class="effect">Euphoric</span>
+                <span class="effect">Creative</span>
+                <span class="effect">Relaxed</span>
+                <span class="effect">Happy</span>
             </div>
             <div class="coa-note">COA available on request</div>
         </div>
     </div>
 
+    <!-- SOUR JOKER -->
     <div class="card" data-type="sativa">
         <div class="type-bar"></div>
         <div class="card-top">
@@ -659,25 +676,33 @@ footer {
             <span class="thc-badge">THC 28.36%</span>
             <span class="thc-badge">Total Cannabinoids 33.15%</span>
             <div class="terp-chips">
-                <span class="terp">Terpinolene</span><span class="terp">Myrcene</span><span class="terp">Ocimene</span>
+                <span class="terp">Terpinolene</span>
+                <span class="terp">Myrcene</span>
+                <span class="terp">Ocimene</span>
             </div>
         </div>
         <p class="desc">Sharp diesel funk with bright citrus. An energetic, heady profile built for daylight hours.</p>
         <div class="pricing">
             <div class="tier"><span class="t-name">3.5g</span><span class="t-price">$25</span><span class="t-case">Case 24</span></div>
-            <div class="tier"><span class="t-name">1g Roll</span><span class="t-price">$7</span><span class="t-case">Case 50</span></div>
+            <div class="tier tier-sold"><span class="t-name">1g Roll</span><span class="t-price">$7</span><span class="t-case">Sold Out</span></div>
             <div class="tier"><span class="t-name">5-Pack</span><span class="t-price">$20</span><span class="t-case">Case 20</span></div>
         </div>
-        <button class="expand-btn" onclick="toggleDetails(this)">Details <span class="chevron">&#8964;</span></button>
+        <button class="expand-btn" onclick="toggleDetails(this)">
+            Details <span class="chevron">&#8964;</span>
+        </button>
         <div class="card-details">
             <div class="effects-label">Effects</div>
             <div class="effects-list">
-                <span class="effect">Energetic</span><span class="effect">Focused</span><span class="effect">Uplifted</span><span class="effect">Cerebral</span>
+                <span class="effect">Energetic</span>
+                <span class="effect">Focused</span>
+                <span class="effect">Uplifted</span>
+                <span class="effect">Cerebral</span>
             </div>
             <div class="coa-note">COA available on request</div>
         </div>
     </div>
 
+    <!-- PURPLE HAZE -->
     <div class="card" data-type="sativa">
         <div class="type-bar"></div>
         <div class="card-top">
@@ -689,23 +714,31 @@ footer {
             <span class="thc-badge">THC 27.13%</span>
             <span class="thc-badge">Total Cannabinoids 32.15%</span>
             <div class="terp-chips">
-                <span class="terp">Terpinolene</span><span class="terp">Ocimene</span><span class="terp">Myrcene</span>
+                <span class="terp">Terpinolene</span>
+                <span class="terp">Ocimene</span>
+                <span class="terp">Myrcene</span>
             </div>
         </div>
         <p class="desc">Floral haze aromas with a timeless cerebral experience. A classic lineage done right.</p>
         <div class="pricing one">
             <div class="tier"><span class="t-name">3.5g Flower</span><span class="t-price">$25</span><span class="t-case">Case 24</span></div>
         </div>
-        <button class="expand-btn" onclick="toggleDetails(this)">Details <span class="chevron">&#8964;</span></button>
+        <button class="expand-btn" onclick="toggleDetails(this)">
+            Details <span class="chevron">&#8964;</span>
+        </button>
         <div class="card-details">
             <div class="effects-label">Effects</div>
             <div class="effects-list">
-                <span class="effect">Cerebral</span><span class="effect">Dreamy</span><span class="effect">Inspired</span><span class="effect">Uplifted</span>
+                <span class="effect">Cerebral</span>
+                <span class="effect">Dreamy</span>
+                <span class="effect">Inspired</span>
+                <span class="effect">Uplifted</span>
             </div>
             <div class="coa-note">COA available on request</div>
         </div>
     </div>
 
+    <!-- SUGARED HAZE -->
     <div class="card" data-type="sativa">
         <div class="type-bar"></div>
         <div class="card-top">
@@ -717,18 +750,25 @@ footer {
             <span class="thc-badge">THC 22.38%</span>
             <span class="thc-badge">Total Cannabinoids 25.89%</span>
             <div class="terp-chips">
-                <span class="terp">Terpinolene</span><span class="terp">Pinene</span><span class="terp">Limonene</span>
+                <span class="terp">Terpinolene</span>
+                <span class="terp">Pinene</span>
+                <span class="terp">Limonene</span>
             </div>
         </div>
         <p class="desc">Light, sweet, and aromatic with sugary berry notes layered over a classic haze backbone.</p>
         <div class="pricing one">
             <div class="tier"><span class="t-name">1g Pre-Roll</span><span class="t-price">$7</span><span class="t-case">Case 50</span></div>
         </div>
-        <button class="expand-btn" onclick="toggleDetails(this)">Details <span class="chevron">&#8964;</span></button>
+        <button class="expand-btn" onclick="toggleDetails(this)">
+            Details <span class="chevron">&#8964;</span>
+        </button>
         <div class="card-details">
             <div class="effects-label">Effects</div>
             <div class="effects-list">
-                <span class="effect">Uplifted</span><span class="effect">Alert</span><span class="effect">Happy</span><span class="effect">Creative</span>
+                <span class="effect">Uplifted</span>
+                <span class="effect">Alert</span>
+                <span class="effect">Happy</span>
+                <span class="effect">Creative</span>
             </div>
             <div class="coa-note">COA available on request</div>
         </div>
@@ -772,8 +812,10 @@ footer {
         <span class="lineage">Grapefruit × Chemdawg</span>
         <div class="card-meta"><span class="thc-badge">THC TBA</span></div>
         <p class="desc">A potent fusion of tart citrus and classic chemical funk. Arriving soon.</p>
-        <div class="pricing one">
-            <div class="tier"><span class="t-name">3.5g Flower</span><span class="t-price">TBA</span><span class="t-case">Case 24</span></div>
+        <div class="pricing">
+            <div class="tier"><span class="t-name">3.5g</span><span class="t-price">TBA</span><span class="t-case">Case 24</span></div>
+            <div class="tier"><span class="t-name">1g Roll</span><span class="t-price">TBA</span><span class="t-case">Case 50</span></div>
+            <div class="tier"><span class="t-name">5-Pack</span><span class="t-price">TBA</span><span class="t-case">Case 20</span></div>
         </div>
     </div>
 
@@ -794,8 +836,20 @@ footer {
         <span class="lineage">Platinum Cookies × GDP × Blue Dream × Gelato 41</span>
         <div class="card-meta"><span class="thc-badge">THC TBA</span></div>
         <p class="desc">A rare quad-cross with sweet fruit-forward aromas and deeply relaxing effects. Highly anticipated.</p>
+        <div class="pricing two">
+            <div class="tier"><span class="t-name">3.5g</span><span class="t-price">TBA</span><span class="t-case">Case 24</span></div>
+            <div class="tier"><span class="t-name">1g Roll</span><span class="t-price">TBA</span><span class="t-case">Case 50</span></div>
+        </div>
+    </div>
+
+    <div class="card is-soon" data-type="sativa">
+        <div class="type-bar"></div>
+        <div class="card-top"><h3 class="name">Sour Chem</h3><span class="badge b-sativa">Sativa</span></div>
+        <span class="lineage">Sour Joker × Chem 51</span>
+        <div class="card-meta"><span class="thc-badge">THC TBA</span></div>
+        <p class="desc">The diesel bite of Sour Joker meets the heavy chemical punch of Chem 51. A fuel-forward, electric sativa experience.</p>
         <div class="pricing one">
-            <div class="tier"><span class="t-name">3.5g Flower</span><span class="t-price">TBA</span><span class="t-case">Case 24</span></div>
+            <div class="tier"><span class="t-name">1g Roll</span><span class="t-price">TBA</span><span class="t-case">Case 50</span></div>
         </div>
     </div>
 
@@ -1037,3 +1091,4 @@ sections.forEach(id => { const el = document.getElementById(id); if (el) observe
 </script>
 </body>
 </html>
+```
