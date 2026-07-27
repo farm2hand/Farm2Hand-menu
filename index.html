@@ -23,6 +23,7 @@
 
 * { margin:0; padding:0; box-sizing:border-box; }
 
+/* ── BODY & GRAIN TEXTURE ── */
 body {
     font-family: 'Barlow', sans-serif;
     background: var(--p7621);
@@ -37,6 +38,7 @@ body {
     50%      { background-color: #851626; }
 }
 
+/* Grain overlay */
 body::after {
     content: '';
     position: fixed; inset: 0;
@@ -47,6 +49,7 @@ body::after {
     z-index: 1;
 }
 
+/* Depth vignette */
 body::before {
     content: '';
     position: fixed; inset: 0;
@@ -66,10 +69,20 @@ body::before {
     backdrop-filter: blur(18px) saturate(1.6);
     -webkit-backdrop-filter: blur(18px) saturate(1.6);
     border-bottom: 1px solid rgba(255,255,255,0.1);
-    padding: 10px 20px;
+    padding: 10px 20px 8px;
+    display: flex; flex-direction: column; gap: 0;
+}
+.nav-row-1 {
     display: flex; align-items: center;
     justify-content: space-between; gap: 12px;
     flex-wrap: wrap;
+    margin-bottom: 8px;
+}
+.nav-row-2 {
+    display: flex; align-items: center; gap: 8px;
+    flex-wrap: wrap;
+    padding-top: 7px;
+    border-top: 1px solid rgba(255,255,255,0.09);
 }
 
 .nav-left { display: flex; align-items: center; gap: 10px; }
@@ -113,6 +126,35 @@ body::before {
     white-space: nowrap;
 }
 .jump-link:hover, .jump-link.lit { color: #fff; }
+
+/* ── FORMAT PILLS ── */
+.format-pills { display:flex; gap:6px; flex-wrap:wrap; }
+.format-row {
+    width:100%;
+    display:flex; align-items:center; gap:8px;
+    padding-top:7px;
+    border-top:1px solid rgba(255,255,255,0.09);
+}
+.format-row-label {
+    font-family:'Barlow Condensed',sans-serif;
+    font-size:.46rem; font-weight:800; letter-spacing:2.5px;
+    text-transform:uppercase; color:rgba(255,255,255,0.22);
+    white-space:nowrap;
+}
+.fpill {
+    font-family:'Barlow Condensed',sans-serif;
+    font-size:.54rem; font-weight:800; letter-spacing:2px;
+    text-transform:uppercase;
+    padding:5px 13px; border-radius:20px;
+    border:1px solid rgba(255,255,255,0.18);
+    color:rgba(255,255,255,0.42);
+    background:transparent;
+    cursor:pointer;
+    transition:all .18s;
+    position:relative; overflow:hidden;
+}
+.fpill:hover  { color:#fff; border-color:rgba(255,255,255,0.5); }
+.fpill.active { background:rgba(255,255,255,0.14); color:#fff; border-color:rgba(255,255,255,0.45); }
 
 /* ── HEADER ── */
 header {
@@ -191,6 +233,7 @@ header {
 @media(min-width:600px)  { .grid{ grid-template-columns:repeat(2,1fr); gap:14px; } }
 @media(min-width:1000px) { .grid{ grid-template-columns:repeat(3,1fr); gap:16px; padding:0; } }
 
+/* hidden by filter */
 .card.filtered-out { display: none; }
 
 /* ── CARD ── */
@@ -203,6 +246,7 @@ header {
     overflow: hidden;
     cursor: pointer;
     color: var(--ink);
+    /* entrance defaults */
     opacity: 0;
     transform: translateY(30px);
     transition: opacity 0.6s cubic-bezier(0.22,1,0.36,1),
@@ -230,7 +274,7 @@ header {
     flex-shrink: 0;
 }
 
-/* ── CARD WATERMARK ── */
+/* ── CARD WATERMARK — only when details open ── */
 .card::before {
     content: '';
     position: absolute;
@@ -245,7 +289,7 @@ header {
 }
 .card:has(.card-details.open)::before { opacity: 0.042; }
 
-/* ── SHIMMER ── */
+/* ── SHIMMER on hover ── */
 .card::after {
     content: '';
     position: absolute;
@@ -261,7 +305,7 @@ header {
     transition: left 0.55s ease;
 }
 
-/* ── TYPE BAR ── */
+/* ── TYPE BAR (left accent) ── */
 .type-bar {
     position: absolute; left:0; top:0; bottom:0; width:4px;
     border-radius: 16px 0 0 16px;
@@ -609,18 +653,29 @@ footer {
 
 <!-- ── STICKY NAV ── -->
 <nav class="sticky-nav" id="sticky-nav">
-    <div class="nav-left">
-        <img src="https://i.ibb.co/k2MvSr2v/FYRE-ICON-LOGO.png" alt="FYRE" class="nav-icon">
-        <div class="filter-pills">
-        <button class="pill active" data-filter="all">All</button>
-        <button class="pill s-sativa" data-filter="sativa">Sativa</button>
-        <button class="pill s-hybrid" data-filter="hybrid">Hybrid</button>
-        <button class="pill s-indica" data-filter="indica">Indica</button>
+    <div class="nav-row-1">
+        <div class="nav-left">
+            <img src="https://i.ibb.co/k2MvSr2v/FYRE-ICON-LOGO.png" alt="FYRE" class="nav-icon">
+            <div class="filter-pills">
+                <button class="pill active" data-filter="all">All</button>
+                <button class="pill s-sativa" data-filter="sativa">Sativa</button>
+                <button class="pill s-hybrid" data-filter="hybrid">Hybrid</button>
+                <button class="pill s-indica" data-filter="indica">Indica</button>
+            </div>
+        </div>
+        <div class="jump-links">
+            <a class="jump-link" href="#available">Available</a>
+            <a class="jump-link" href="#sold">Sold Out</a>
+        </div>
     </div>
-    </div>
-    <div class="jump-links">
-        <a class="jump-link" href="#available">Available</a>
-        <a class="jump-link" href="#sold">Sold Out</a>
+    <div class="nav-row-2">
+        <span class="format-row-label">Format</span>
+        <div class="format-pills">
+            <button class="fpill active" data-format="all">All</button>
+            <button class="fpill" data-format="eighth">Eighths</button>
+            <button class="fpill" data-format="5pk">5-Pack</button>
+            <button class="fpill" data-format="1g">1g Pre-Roll</button>
+        </div>
     </div>
 </nav>
 
@@ -636,7 +691,9 @@ footer {
     <div class="eyebrow"><span>Curated Premium Menu</span></div>
 </header>
 
-<!-- AVAILABLE NOW -->
+<!-- ══════════════════════════════════
+     AVAILABLE NOW
+══════════════════════════════════ -->
 <div class="sec" id="available"><strong>Available Now</strong></div>
 <div class="grid" id="available-grid">
 
@@ -659,15 +716,20 @@ footer {
         </div>
         <p class="desc">Sweet tropical fruit and creamy gelato flavors. Balanced euphoric effects built for any session.</p>
         <div class="pricing">
-            <div class="tier"><span class="t-name">3.5g</span><span class="t-price">$25</span><span class="t-case">Case 24</span></div>
+            <div class="tier"><span class="t-name">3.5g</span><span class="t-price">$25</span><span class="t-case">Case 32</span></div>
             <div class="tier"><span class="t-name">1g Roll</span><span class="t-price">$7</span><span class="t-case">Case 50</span></div>
             <div class="tier"><span class="t-name">5-Pack</span><span class="t-price">$20</span><span class="t-case">Case 20</span></div>
         </div>
-        <button class="expand-btn" onclick="toggleDetails(this)">Details <span class="chevron">&#8964;</span></button>
+        <button class="expand-btn" onclick="toggleDetails(this)">
+            Details <span class="chevron">&#8964;</span>
+        </button>
         <div class="card-details">
             <div class="effects-label">Effects</div>
             <div class="effects-list">
-                <span class="effect">Euphoric</span><span class="effect">Creative</span><span class="effect">Relaxed</span><span class="effect">Happy</span>
+                <span class="effect">Euphoric</span>
+                <span class="effect">Creative</span>
+                <span class="effect">Relaxed</span>
+                <span class="effect">Happy</span>
             </div>
             <div class="coa-note">COA available on request</div>
         </div>
@@ -685,20 +747,27 @@ footer {
             <span class="thc-badge">THC 28.36%</span>
             <span class="thc-badge">Total Cannabinoids 33.15%</span>
             <div class="terp-chips">
-                <span class="terp">Terpinolene</span><span class="terp">Myrcene</span><span class="terp">Ocimene</span>
+                <span class="terp">Terpinolene</span>
+                <span class="terp">Myrcene</span>
+                <span class="terp">Ocimene</span>
             </div>
         </div>
         <p class="desc">Sharp diesel funk with bright citrus. An energetic, heady profile built for daylight hours.</p>
         <div class="pricing">
-            <div class="tier"><span class="t-name">3.5g</span><span class="t-price">$25</span><span class="t-case">Case 24</span></div>
+            <div class="tier"><span class="t-name">3.5g</span><span class="t-price">$25</span><span class="t-case">Case 32</span></div>
             <div class="tier tier-sold"><span class="t-name">1g Roll</span><span class="t-price">$7</span><span class="t-case">Sold Out</span></div>
             <div class="tier"><span class="t-name">5-Pack</span><span class="t-price">$20</span><span class="t-case">Case 20</span></div>
         </div>
-        <button class="expand-btn" onclick="toggleDetails(this)">Details <span class="chevron">&#8964;</span></button>
+        <button class="expand-btn" onclick="toggleDetails(this)">
+            Details <span class="chevron">&#8964;</span>
+        </button>
         <div class="card-details">
             <div class="effects-label">Effects</div>
             <div class="effects-list">
-                <span class="effect">Energetic</span><span class="effect">Focused</span><span class="effect">Uplifted</span><span class="effect">Cerebral</span>
+                <span class="effect">Energetic</span>
+                <span class="effect">Focused</span>
+                <span class="effect">Uplifted</span>
+                <span class="effect">Cerebral</span>
             </div>
             <div class="coa-note">COA available on request</div>
         </div>
@@ -716,18 +785,25 @@ footer {
             <span class="thc-badge">THC 27.13%</span>
             <span class="thc-badge">Total Cannabinoids 32.15%</span>
             <div class="terp-chips">
-                <span class="terp">Terpinolene</span><span class="terp">Ocimene</span><span class="terp">Myrcene</span>
+                <span class="terp">Terpinolene</span>
+                <span class="terp">Ocimene</span>
+                <span class="terp">Myrcene</span>
             </div>
         </div>
         <p class="desc">Floral haze aromas with a timeless cerebral experience. A classic lineage done right.</p>
         <div class="pricing one">
-            <div class="tier"><span class="t-name">3.5g Flower</span><span class="t-price">$25</span><span class="t-case">Case 24</span></div>
+            <div class="tier"><span class="t-name">3.5g Flower</span><span class="t-price">$25</span><span class="t-case">Case 32</span></div>
         </div>
-        <button class="expand-btn" onclick="toggleDetails(this)">Details <span class="chevron">&#8964;</span></button>
+        <button class="expand-btn" onclick="toggleDetails(this)">
+            Details <span class="chevron">&#8964;</span>
+        </button>
         <div class="card-details">
             <div class="effects-label">Effects</div>
             <div class="effects-list">
-                <span class="effect">Cerebral</span><span class="effect">Dreamy</span><span class="effect">Inspired</span><span class="effect">Uplifted</span>
+                <span class="effect">Cerebral</span>
+                <span class="effect">Dreamy</span>
+                <span class="effect">Inspired</span>
+                <span class="effect">Uplifted</span>
             </div>
             <div class="coa-note">COA available on request</div>
         </div>
@@ -745,22 +821,30 @@ footer {
             <span class="thc-badge">THC 22.38%</span>
             <span class="thc-badge">Total Cannabinoids 25.89%</span>
             <div class="terp-chips">
-                <span class="terp">Terpinolene</span><span class="terp">Pinene</span><span class="terp">Limonene</span>
+                <span class="terp">Terpinolene</span>
+                <span class="terp">Pinene</span>
+                <span class="terp">Limonene</span>
             </div>
         </div>
         <p class="desc">Light, sweet, and aromatic with sugary berry notes layered over a classic haze backbone.</p>
         <div class="pricing one">
             <div class="tier"><span class="t-name">1g Pre-Roll</span><span class="t-price">$7</span><span class="t-case">Case 50</span></div>
         </div>
-        <button class="expand-btn" onclick="toggleDetails(this)">Details <span class="chevron">&#8964;</span></button>
+        <button class="expand-btn" onclick="toggleDetails(this)">
+            Details <span class="chevron">&#8964;</span>
+        </button>
         <div class="card-details">
             <div class="effects-label">Effects</div>
             <div class="effects-list">
-                <span class="effect">Uplifted</span><span class="effect">Alert</span><span class="effect">Happy</span><span class="effect">Creative</span>
+                <span class="effect">Uplifted</span>
+                <span class="effect">Alert</span>
+                <span class="effect">Happy</span>
+                <span class="effect">Creative</span>
             </div>
             <div class="coa-note">COA available on request</div>
         </div>
     </div>
+
 
     <!-- NY SOUR DIESEL -->
     <div class="card" data-type="sativa">
@@ -771,10 +855,12 @@ footer {
             <span class="badge b-sativa">Sativa</span>
         </div>
         <span class="lineage">Original Diesel × Northern Lights</span>
-        <div class="card-meta"><span class="thc-badge">THC TBA</span></div>
+        <div class="card-meta">
+            <span class="thc-badge">THC TBA</span>
+        </div>
         <p class="desc">The legendary East Coast classic. Pungent fuel and citrus aromas with unmatched energy.</p>
         <div class="pricing">
-            <div class="tier"><span class="t-name">3.5g</span><span class="t-price">$25</span><span class="t-case">Case 24</span></div>
+            <div class="tier"><span class="t-name">3.5g</span><span class="t-price">$25</span><span class="t-case">Case 32</span></div>
             <div class="tier"><span class="t-name">1g Roll</span><span class="t-price">$7</span><span class="t-case">Case 50</span></div>
             <div class="tier tier-soon"><span class="t-name">5-Pack</span><span class="t-price">Soon</span><span class="t-case">Coming Soon</span></div>
         </div>
@@ -797,10 +883,12 @@ footer {
             <span class="badge b-sativa">Sativa</span>
         </div>
         <span class="lineage">The Legendary NYC Haze</span>
-        <div class="card-meta"><span class="thc-badge">THC TBA</span></div>
+        <div class="card-meta">
+            <span class="thc-badge">THC TBA</span>
+        </div>
         <p class="desc">Authentic NYC incense notes with an electric head-high. The church is back.</p>
         <div class="pricing">
-            <div class="tier"><span class="t-name">3.5g</span><span class="t-price">$25</span><span class="t-case">Case 24</span></div>
+            <div class="tier"><span class="t-name">3.5g</span><span class="t-price">$25</span><span class="t-case">Case 32</span></div>
             <div class="tier"><span class="t-name">1g Roll</span><span class="t-price">$7</span><span class="t-case">Case 50</span></div>
             <div class="tier tier-soon"><span class="t-name">5-Pack</span><span class="t-price">Soon</span><span class="t-case">Coming Soon</span></div>
         </div>
@@ -823,10 +911,12 @@ footer {
             <span class="badge b-hybrid">Hybrid</span>
         </div>
         <span class="lineage">Grapefruit × Chemdawg</span>
-        <div class="card-meta"><span class="thc-badge">THC TBA</span></div>
+        <div class="card-meta">
+            <span class="thc-badge">THC TBA</span>
+        </div>
         <p class="desc">A potent fusion of tart citrus and classic chemical funk. Bold and balanced.</p>
         <div class="pricing">
-            <div class="tier"><span class="t-name">3.5g</span><span class="t-price">$25</span><span class="t-case">Case 24</span></div>
+            <div class="tier"><span class="t-name">3.5g</span><span class="t-price">$25</span><span class="t-case">Case 32</span></div>
             <div class="tier"><span class="t-name">1g Roll</span><span class="t-price">$7</span><span class="t-case">Case 50</span></div>
             <div class="tier tier-soon"><span class="t-name">5-Pack</span><span class="t-price">Soon</span><span class="t-case">Coming Soon</span></div>
         </div>
@@ -849,10 +939,12 @@ footer {
             <span class="badge b-indica">Indica</span>
         </div>
         <span class="lineage">Purple Punch × French Toast</span>
-        <div class="card-meta"><span class="thc-badge">THC TBA</span></div>
+        <div class="card-meta">
+            <span class="thc-badge">THC TBA</span>
+        </div>
         <p class="desc">Sweet berry and doughy dessert aromas with a heavy, relaxing body effect. A certified crowd-pleaser.</p>
         <div class="pricing one">
-            <div class="tier"><span class="t-name">3.5g Flower</span><span class="t-price">$25</span><span class="t-case">Case 24</span></div>
+            <div class="tier"><span class="t-name">3.5g Flower</span><span class="t-price">$25</span><span class="t-case">Case 32</span></div>
         </div>
         <button class="expand-btn" onclick="toggleDetails(this)">Details <span class="chevron">&#8964;</span></button>
         <div class="card-details">
@@ -873,10 +965,12 @@ footer {
             <span class="badge b-hybrid">Hybrid</span>
         </div>
         <span class="lineage">Platinum Cookies × GDP × Blue Dream × Gelato 41</span>
-        <div class="card-meta"><span class="thc-badge">THC TBA</span></div>
+        <div class="card-meta">
+            <span class="thc-badge">THC TBA</span>
+        </div>
         <p class="desc">A rare quad-cross with sweet fruit-forward aromas and deeply relaxing effects. Highly sought after.</p>
         <div class="pricing two">
-            <div class="tier"><span class="t-name">3.5g</span><span class="t-price">$25</span><span class="t-case">Case 24</span></div>
+            <div class="tier"><span class="t-name">3.5g</span><span class="t-price">$25</span><span class="t-case">Case 32</span></div>
             <div class="tier"><span class="t-name">1g Roll</span><span class="t-price">$7</span><span class="t-case">Case 50</span></div>
         </div>
         <button class="expand-btn" onclick="toggleDetails(this)">Details <span class="chevron">&#8964;</span></button>
@@ -898,7 +992,9 @@ footer {
             <span class="badge b-sativa">Sativa</span>
         </div>
         <span class="lineage">Sour Joker × Chem 51</span>
-        <div class="card-meta"><span class="thc-badge">THC TBA</span></div>
+        <div class="card-meta">
+            <span class="thc-badge">THC TBA</span>
+        </div>
         <p class="desc">The diesel bite of Sour Joker meets the heavy chemical punch of Chem 51. Fuel-forward and electric.</p>
         <div class="pricing one">
             <div class="tier"><span class="t-name">1g Roll</span><span class="t-price">$7</span><span class="t-case">Case 50</span></div>
@@ -915,7 +1011,9 @@ footer {
 
 </div>
 
-<!-- SOLD OUT -->
+<!-- ══════════════════════════════════
+     SOLD OUT
+══════════════════════════════════ -->
 <div class="sec" id="sold"><strong>Sold Out</strong></div>
 <div class="grid">
 
@@ -984,10 +1082,12 @@ footer {
     <div class="f-legal">Must Be 21+ &nbsp;·&nbsp; For Licensed Retailers Only</div>
 </footer>
 
+<!-- ── SCROLL TO TOP ── -->
 <button class="scroll-top" id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
 </button>
 
+<!-- ── FLOATING ORDER BUTTON ── -->
 <a class="order-fab" href="#" id="order-fab-btn">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.01 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/>
@@ -995,6 +1095,7 @@ footer {
     Place Order
 </a>
 
+<!-- ── ORDER MODAL ── -->
 <div class="modal-backdrop" id="order-modal">
     <div class="modal">
         <button class="modal-close" id="modal-close">&#x2715;</button>
@@ -1009,6 +1110,7 @@ footer {
             </div>
             <div>
                 <div class="contact-label">Call or Text</div>
+                <!-- UPDATE PHONE NUMBER BELOW -->
                 <a class="contact-val" href="tel:+19297584565">(929) 758-4565</a>
             </div>
         </div>
@@ -1021,6 +1123,7 @@ footer {
             </div>
             <div>
                 <div class="contact-label">Email</div>
+                <!-- UPDATE EMAIL BELOW -->
                 <a class="contact-val" href="mailto:cv@farm2hand.com">cv@farm2hand.com</a>
             </div>
         </div>
@@ -1030,6 +1133,7 @@ footer {
 </div>
 
 <script>
+/* ── CARD ENTRANCE STAGGER ── */
 (function() {
     const cards = document.querySelectorAll('.card');
     const observer = new IntersectionObserver((entries) => {
@@ -1046,24 +1150,61 @@ footer {
     cards.forEach(c => observer.observe(c));
 })();
 
+/* ── FILTER ── */
+let activeType   = 'all';
+let activeFormat = 'all';
+
+function cardHasFormat(card, fmt) {
+    if (fmt === 'all') return true;
+    const tiers = [...card.querySelectorAll('.tier')];
+    if (fmt === 'eighth')
+        return tiers.some(t => !t.classList.contains('tier-sold') && /3\.5g/i.test(t.querySelector('.t-name')?.textContent || ''));
+    if (fmt === '5pk')
+        return tiers.some(t => !t.classList.contains('tier-sold') && !t.classList.contains('tier-soon') && /5-Pack/i.test(t.querySelector('.t-name')?.textContent || ''));
+    if (fmt === '1g')
+        return tiers.some(t => !t.classList.contains('tier-sold') && /1g/i.test(t.querySelector('.t-name')?.textContent || ''));
+    return true;
+}
+
+function applyFilters() {
+    document.querySelectorAll('#available-grid .card').forEach(card => {
+        const typeMatch   = activeType   === 'all' || card.dataset.type === activeType;
+        const formatMatch = cardHasFormat(card, activeFormat);
+        card.classList.toggle('filtered-out', !typeMatch || !formatMatch);
+    });
+}
+
+function addRipple(btn, e) {
+    const r = document.createElement('span');
+    r.className = 'ripple-el';
+    const rect = btn.getBoundingClientRect();
+    const sz = Math.max(rect.width, rect.height);
+    r.style.cssText = `width:${sz}px;height:${sz}px;left:${e.clientX-rect.left-sz/2}px;top:${e.clientY-rect.top-sz/2}px`;
+    btn.appendChild(r);
+    setTimeout(() => r.remove(), 600);
+}
+
 document.querySelectorAll('.pill').forEach(pill => {
     pill.addEventListener('click', function(e) {
-        const r = document.createElement('span');
-        r.className = 'ripple-el';
-        const rect = this.getBoundingClientRect();
-        const sz = Math.max(rect.width, rect.height);
-        r.style.cssText = `width:${sz}px;height:${sz}px;left:${e.clientX-rect.left-sz/2}px;top:${e.clientY-rect.top-sz/2}px`;
-        this.appendChild(r);
-        setTimeout(() => r.remove(), 600);
+        addRipple(this, e);
         document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
         this.classList.add('active');
-        const filter = this.dataset.filter;
-        document.querySelectorAll('#available-grid .card').forEach(card => {
-            card.classList.toggle('filtered-out', filter !== 'all' && card.dataset.type !== filter);
-        });
+        activeType = this.dataset.filter;
+        applyFilters();
     });
 });
 
+document.querySelectorAll('.fpill').forEach(fpill => {
+    fpill.addEventListener('click', function(e) {
+        addRipple(this, e);
+        document.querySelectorAll('.fpill').forEach(p => p.classList.remove('active'));
+        this.classList.add('active');
+        activeFormat = this.dataset.format;
+        applyFilters();
+    });
+});
+
+/* ── CARD EXPAND ── */
 function toggleDetails(btn) {
     const card    = btn.closest('.card');
     const details = card.querySelector('.card-details');
@@ -1072,6 +1213,7 @@ function toggleDetails(btn) {
     btn.classList.toggle('open', !open);
 }
 
+/* ── ORDER MODAL ── */
 document.getElementById('order-fab-btn').addEventListener('click', e => {
     e.preventDefault();
     document.getElementById('order-modal').classList.add('open');
@@ -1083,10 +1225,12 @@ document.getElementById('order-modal').addEventListener('click', e => {
     if (e.target === e.currentTarget) e.currentTarget.classList.remove('open');
 });
 
+/* ── SCROLL TO TOP VISIBILITY ── */
 window.addEventListener('scroll', () => {
     document.getElementById('scroll-top').classList.toggle('visible', window.scrollY > 400);
 });
 
+/* ── SCROLL SPY (jump links) ── */
 const sections = ['available', 'sold'];
 const links    = document.querySelectorAll('.jump-link');
 const observer = new IntersectionObserver(entries => {
@@ -1099,16 +1243,20 @@ const observer = new IntersectionObserver(entries => {
 }, { threshold: 0.25 });
 sections.forEach(id => { const el = document.getElementById(id); if (el) observer.observe(el); });
 
+/* ── LOGO EMBERS ── */
 (function() {
     const header = document.querySelector('header');
     const canvas = document.getElementById('ember-canvas');
     const ctx    = canvas.getContext('2d');
+
     function resize() { canvas.width = header.offsetWidth; canvas.height = header.offsetHeight; }
     resize();
     window.addEventListener('resize', resize);
+
     const COLS = ['rgba(255,220,80,','rgba(255,170,30,','rgba(255,110,20,','rgba(230,60,10,','rgba(255,245,160,'];
     const embers = [];
     const N = 60;
+
     function makeEmber() {
         return {
             x: canvas.width * 0.5 + (Math.random() - 0.5) * canvas.width * 0.52,
@@ -1121,10 +1269,13 @@ sections.forEach(id => { const el = document.getElementById(id); if (el) observe
             flicker: Math.random() * Math.PI * 2,
         };
     }
+
     for (let i = 0; i < N; i++) { const e = makeEmber(); e.y -= Math.random() * canvas.height * 0.72; embers.push(e); }
+
     function tick(now) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         while (embers.length < N) embers.push(makeEmber());
+
         for (let i = embers.length - 1; i >= 0; i--) {
             const e = embers[i];
             e.x += e.vx + Math.sin(now * 0.001 + e.flicker) * 0.45;
@@ -1132,15 +1283,18 @@ sections.forEach(id => { const el = document.getElementById(id); if (el) observe
             e.life -= 0.006 + Math.random() * 0.003;
             e.flicker += 0.04;
             if (e.life <= 0 || e.y < -12) { embers.splice(i, 1); continue; }
+
             const glow = Math.sin(now * 0.006 + e.flicker) * 0.3 + 0.7;
             const a = e.life * glow;
             const r = e.sz * (0.8 + Math.sin(now * 0.009 + e.flicker) * 0.2);
+
             const rg = ctx.createRadialGradient(e.x, e.y, 0, e.x, e.y, r * 4);
             rg.addColorStop(0,   e.col + `${a * 0.85})`);
             rg.addColorStop(0.4, e.col + `${a * 0.28})`);
             rg.addColorStop(1,   e.col + '0)');
             ctx.beginPath(); ctx.arc(e.x, e.y, r * 4, 0, Math.PI * 2);
             ctx.fillStyle = rg; ctx.fill();
+
             ctx.beginPath(); ctx.arc(e.x, e.y, r, 0, Math.PI * 2);
             ctx.fillStyle = e.col + `${Math.min(a * 1.5, 1)})`; ctx.fill();
         }
@@ -1151,4 +1305,3 @@ sections.forEach(id => { const el = document.getElementById(id); if (el) observe
 </script>
 </body>
 </html>
-```
